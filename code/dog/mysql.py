@@ -1,16 +1,15 @@
 # /usr/bin/env python3
 import pymysql
 
-
 class Mysql(object):
     def __init__(self):
         try:
             self.conn = pymysql.connect(
-                host='192.168.26.131',
+                host='192.168.1.103',
                 port=3306,
                 user='root',
-                passwd='mysql',
-                db='testdb',
+                passwd='Admin123!',
+                db='gp',
                 charset='utf8'
             )
         except Exception as e:
