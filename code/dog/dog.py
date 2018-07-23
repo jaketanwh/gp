@@ -4,6 +4,34 @@ import qq
 import time,datetime
 import json
 from decimal import *
+import pymysql
+import re
+
+###############################################################################################
+# mysql
+###############################################################################################
+MYSQL_CONN = 0
+def mysql():
+    global MYSQL_CONN
+    MYSQL_CONN = pymysql.connect(host='localhost', user='root', password='admin123!', db='gp', port=3306, charset='utf8')
+
+
+def closemysql():
+    global MYSQL_CONN
+    MYSQL_CONN.close()
+    MYSQL_CONN = 0
+
+def table_exists(cursor,table_name):        #这个函数用来判断表是否存在
+    sql = "show tables;"
+    cursor.execute(sql)
+    tables = [cursor.fetchall()]
+    table_list = re.findall('(\'.*?\')',str(tables))
+    table_list = [re.sub("'",'',each) for each in table_list]
+    if table_name in table_list:
+        return 1        #存在返回1
+    else:
+        return 0        #不存在返回0
+
 
 ###############################################################################################
 # 计算公式
@@ -21,6 +49,13 @@ class clock:
         print('clock time:' + str(time.clock() - self.durclock))
         print('real time:' + str(time.time() - self.durtime))
 
+def getmax(a,b):
+    _a = float(a)
+    _b = float(b)
+    if _a > _b:
+        return _a
+    else:
+        return _b
 
 ###############################################################################################
 # 财联社
@@ -56,6 +91,98 @@ def cls():
         if len(CLS_CATCH_LIST) > 30:
             CLS_CATCH_LIST.pop()
 
+###############################################################################################
+# 每日数据更新
+###############################################################################################
+def updatexg():
+    global MYSQL_CONN
+    if MYSQL_CONN == 0:
+        return
+    xglist = {}
+    cursor = MYSQL_CONN.cursor()
+    cursor.execute("SELECT * FROM code")
+    res = cursor.fetchall()
+    lenres = len(res)
+    ires = 0
+    # 计算日新高
+    for row in res:
+        ires = ires + 1
+        code = row[0]
+        if table_exists(cursor, code) == 1:
+            cursor.execute("SELECT high FROM `" + code + "` p ORDER BY p.date DESC LIMIT 60")
+            _res = cursor.fetchall()
+            _day10 = 0
+            _day20 = 0
+            _day30 = 0
+            _day40 = 0
+            _day50 = 0
+            _day60 = 0
+            i = 0
+            for _row in _res:
+                val = _row[0]
+                if i < 10:
+                    _day10 = getmax(_day10, val)
+                elif i < 20:
+                    _day20 = getmax(_day20, val)
+                elif i < 30:
+                    _day30 = getmax(_day30, val)
+                elif i < 40:
+                    _day40 = getmax(_day40, val)
+                elif i < 50:
+                    _day50 = getmax(_day50, val)
+                elif i < 60:
+                    _day60 = getmax(_day60, val)
+                i = i + 1
+            _len = len(_res)
+            if _len == 60:
+                _day20 = getmax(_day10, _day20)
+                _day30 = getmax(_day20, _day30)
+                _day40 = getmax(_day30, _day40)
+                _day50 = getmax(_day40, _day50)
+                _day60 = getmax(_day50, _day60)
+            elif _len > 50:
+                _day20 = getmax(_day10, _day20)
+                _day30 = getmax(_day20, _day30)
+                _day40 = getmax(_day30, _day40)
+                _day50 = getmax(_day40, _day50)
+            elif _len > 40:
+                _day20 = getmax(_day10, _day20)
+                _day30 = getmax(_day20, _day30)
+                _day40 = getmax(_day30, _day40)
+            elif _len > 30:
+                _day20 = getmax(_day10, _day20)
+                _day30 = getmax(_day20, _day30)
+            elif _len > 20:
+                _day20 = getmax(_day10, _day20)
+
+            _daylist = {}
+            _daylist['10'] = _day10
+            _daylist['20'] = _day20
+            _daylist['30'] = _day30
+            _daylist['40'] = _day40
+            _daylist['50'] = _day50
+            _daylist['60'] = _day60
+            xglist[code] = _daylist
+            print('正在读取第 ' + str(ires) + '/' + str(lenres) + '条数据')
+
+
+    # 创建xg表
+    cursor.execute("CREATE TABLE IF NOT EXISTS xg(code TEXT, h10 DOUBLE, h20 DOUBLE, h30 DOUBLE, h40 DOUBLE, h50 DOUBLE, h60 DOUBLE)")
+
+    # 写入xg表数据
+    print('正在写入...')
+    for key, value in xglist.items():
+        cursor.execute("SELECT * FROM xg WHERE code = "+key)
+        res = cursor.fetchall()
+        if len(res) == 0:
+            cursor.execute("INSERT INTO xg(code,h10,h20,h30,h40,h50,h60) VALUES('%s','%f','%f','%f','%f','%f','%f')"%(key,value['10'],value['20'],value['30'],value['40'],value['50'],value['60']))
+        else:
+            cursor.execute("UPDATE xg SET h10 = %f, h20 = %f, h30 = %f, h40 = %f, h50 = %f, h60 = %f WHERE code=%s"%(value['10'],value['20'],value['30'],value['40'],value['50'],value['60'],key))
+
+    MYSQL_CONN.commit()
+    cursor.close()
+    print('写入完成')
+
 
 ###############################################################################################
 # 沪深股票
@@ -67,10 +194,27 @@ GP_URL = 'http://hq.sinajs.cn/list='    # sina财经url
 
 #初始化
 def gpinit():
-    global GP_ALL_STR_URL_LIST,GP_ALL_STR_CNT,GP_CUR_DATE
+    global GP_ALL_STR_URL_LIST,GP_ALL_STR_CNT,GP_CUR_DATE,GP_T_XG_DIC,MYSQL_CONN
     _URL = GP_URL
     cnt = 0
-    # load data
+
+    # local xg
+    if MYSQL_CONN != 0:
+        cursor = MYSQL_CONN.cursor()
+        cursor.execute("SELECT * FROM xg")
+        res = cursor.fetchall()
+        for row in res:
+            rlist = {}
+            rlist[10] = row[1]
+            rlist[20] = row[2]
+            rlist[30] = row[3]
+            rlist[40] = row[4]
+            rlist[50] = row[5]
+            rlist[60] = row[6]
+            GP_T_XG_DIC[row[0]] = rlist
+
+
+    # load data for sina
     fr = open('gp.txt', 'r',encoding='UTF-8')
     for line in fr:
         tmp = line.split(',')
@@ -174,9 +318,39 @@ def zd(id):
             return
     #print('  GP_ZT_LIST cnt:' + str(len(GP_ZT_LIST)) + '  GP_DT_LIST cnt:' + str(len(GP_DT_LIST)))
     #print(GP_ZT_LIST)
+
 #股价新高
+GP_T_XG_DIC = {}                        # 股票新高记录
+GP_T_XG_TIP_DIC = {}                    # 新高提示列表
+
 def xg(id):
-    print('')
+    global GP_CATCH_DIC,GP_T_XG_DIC,GP_T_XG_TIP_DIC
+    data = GP_CATCH_DIC[id]
+    _o = data['list'][-1]
+    _ocur = float(_o[3])            #当前价格
+
+    #没有数据
+    if id in GP_T_XG_DIC:
+        return
+
+    xgdata = GP_T_XG_DIC[id]
+    maxkey = 0
+    for key, value in xgdata.items():
+        if _ocur > value:
+            maxkey = getmax(maxkey,key)
+
+    maxkey = int(maxkey)
+    if maxkey == 0:
+        return
+
+    if GP_T_XG_TIP_DIC[id] is not None and GP_T_XG_TIP_DIC[id][maxkey] is not None:
+        return
+
+    GP_T_XG_TIP_DIC[id][maxkey] = 1
+    s = '[测试][' + _o[31] + '] ' + data['name'] + ' ' + id + ' ' + str(maxkey) + '日新高'
+    qq.senMsgToBuddy(s)
+    qq.sendMsgToGroup(s)
+    print('maxkey:' + str(maxkey) + 'id:' + id)
 
 #每帧获取数据并运行策略
 def gp():
@@ -271,7 +445,8 @@ def gp():
                 # 3)
                 zd(_id)
 
-
+                # 4)
+                xg(_id)
 
 
 
@@ -279,24 +454,32 @@ def gp():
     _clock.stop()
     FIRST_INIT = 2
 
+
 ###############################################################################################
 # main
 ###############################################################################################
-def per_command():
+def execute():
     cls()
     gp()
 
-
-def per_init():
+def _init():
+    mysql()
     gpinit()
-    qq.init()
+    #qq.init()
 
+def _update():
+    updatexg()
+
+def _del():
+    closemysql()
 
 def do_while():
     while True:
-        per_command()
+        execute()
         time.sleep(3)
 
 if __name__ == "__main__":
-    per_init()
+    _init()
+    #_update()
     do_while()
+    _del()

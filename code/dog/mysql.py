@@ -4,13 +4,14 @@ import pymysql
 class MySQL(object):
     def __init__(self):
         try:
-            self.ip = '192.168.1.103'
+            self.ip = 'localhost'
+            #self.ip = '192.168.1.103'
             self.db = 'gp'
             self.conn = pymysql.connect(
                 host=self.ip,
                 port=3306,
                 user='root',
-                passwd='Admin123!',
+                passwd='admin123!',
                 db=self.db,
                 charset='utf8'
             )
@@ -25,15 +26,15 @@ class MySQL(object):
         self.conn.close()
 
     def execute(self,sql):
+        print('sql:' + sql)
         return self.cur.execute(sql)
 
     def create_table(self,tname,tparam):
         sql = 'create table if not exists ' + tname + tparam     # +'(id int, name varchar(10),age int)'
         res = self.cur.execute(sql)
-        print(res)
 
-    def add(self,tname,tparam):  # 增
-        sql = 'insert into ' + tname + ' values ' + tparam      #(1,"Tom",18),(2,"Jerry",16),(3,"Hank",24)'
+    def add(self,tname,tkey,tparam):  # 增
+        sql = 'insert into ' + tname + ' ' + tkey + ' values ' + tparam      #(1,"Tom",18),(2,"Jerry",16),(3,"Hank",24)'
         res = self.cur.execute(sql)
         if res:
             self.conn.commit()
