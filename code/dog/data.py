@@ -365,7 +365,7 @@ def day_pt(conn):
 # common
 ######################################################################################
 COMMON_TYPE = 1                 #数据接口 1.sina 2.ts
-def down(conn,engine):
+def down(conn):
     global COMMON_TYPE
     if COMMON_TYPE == 1:
         sina_down(conn)
@@ -381,9 +381,9 @@ if __name__ == "__main__":
     conn = pymysql.connect(host='192.168.1.103', user='root', password='Admin123!', db='gp', port=3306, charset='utf8')
     #conn = pymysql.connect(host='localhost', user='root', password='admin123!', db='gp', port=3306, charset='utf8')
     #写入mysql连接
-    engine = create_engine('mysql://root:Admin123!@192.168.1.103/gp?charset=utf8')
+    #engine = create_engine('mysql://root:Admin123!@192.168.1.103/gp?charset=utf8')
     #engine = create_engine('mysql://root:admin123!@localhost/gp?charset=utf8')
-    #down(conn,engine)
-    #day(conn)
+    down(conn)
+    day(conn)
     #close
     conn.close()
