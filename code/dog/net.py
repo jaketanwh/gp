@@ -34,7 +34,13 @@ def send(url,typ=0,default=0):
         headers = allheaders()
     else:
         headers = defaultheaders()
-    code_of_html = requests.get(url,headers=headers)
+
+    try:
+        code_of_html = requests.get(url,headers=headers)
+    except Exception as ee:
+        print("net error")
+        return -1
+
     if code_of_html.status_code == 200:
         if typ == 1:
             html_doc = str(code_of_html.content, 'utf-8')
