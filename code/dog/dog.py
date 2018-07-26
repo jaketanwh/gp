@@ -192,7 +192,7 @@ def sina(cnt):
                     qq.sendMsgToGroup(s)
 
             money = int(volume * cur / 10000)
-            if money < 100:
+            if money < 500:
                 continue
 
             #大单主卖
@@ -535,10 +535,10 @@ def gp():
                 zd(_id)
 
                 # 4)
-                xg(_id)
+                #xg(_id)
 
                 # 5)
-                pt(_id)
+                #pt(_id)
 
                 # 6)
                 ks(_id)

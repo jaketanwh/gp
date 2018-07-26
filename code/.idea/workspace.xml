@@ -10,17 +10,18 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="CoverageDataManager">
+    <SUITE FILE_PATH="coverage/code$weibo.coverage" NAME="weibo Coverage Results" MODIFIED="1532489897974" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/weibo" />
     <SUITE FILE_PATH="coverage/code$mysql.coverage" NAME="mysql Coverage Results" MODIFIED="1532082069991" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/dog" />
     <SUITE FILE_PATH="coverage/code$data.coverage" NAME="data Coverage Results" MODIFIED="1532420157176" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/dog" />
-    <SUITE FILE_PATH="coverage/code$dog.coverage" NAME="dog Coverage Results" MODIFIED="1532413052818" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/dog" />
+    <SUITE FILE_PATH="coverage/code$dog.coverage" NAME="dog Coverage Results" MODIFIED="1532572429804" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/dog" />
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file leaf-file-name="dog.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/dog/dog.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="599">
-              <caret line="583" column="10" lean-forward="true" selection-start-line="583" selection-start-column="10" selection-end-line="583" selection-end-column="10" />
+            <state relative-caret-position="9937">
+              <caret line="568" column="12" lean-forward="true" selection-start-line="568" selection-start-column="12" selection-end-line="568" selection-end-column="12" />
               <folding>
                 <element signature="e#0#10#0" expanded="true" />
               </folding>
@@ -31,8 +32,17 @@
       <file leaf-file-name="weibo.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/weibo/weibo.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="817">
-              <caret line="49" column="37" selection-start-line="49" selection-start-column="37" selection-end-line="49" selection-end-column="37" />
+            <state relative-caret-position="4408">
+              <caret line="238" column="17" selection-start-line="238" selection-start-column="17" selection-end-line="238" selection-end-column="17" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="weibo.txt" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/weibo/weibo.txt">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="19">
+              <caret line="1" column="3" lean-forward="true" selection-start-line="1" selection-start-column="3" selection-end-line="1" selection-end-column="3" />
             </state>
           </provider>
         </entry>
@@ -41,25 +51,25 @@
         <entry file="file://$PROJECT_DIR$/dog/qq.txt">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="19">
-              <caret line="1" column="6" selection-start-line="1" selection-start-column="6" selection-end-line="1" selection-end-column="6" />
+              <caret line="1" column="4" lean-forward="true" selection-start-line="1" selection-start-column="4" selection-end-line="1" selection-end-column="4" />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="qq.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="qq.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/dog/qq.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="399">
-              <caret line="21" column="34" lean-forward="true" selection-start-line="21" selection-start-column="34" selection-end-line="21" selection-end-column="34" />
+            <state relative-caret-position="114">
+              <caret line="12" column="24" lean-forward="true" selection-start-line="12" selection-start-column="24" selection-end-line="12" selection-end-column="24" />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="data.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="data.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/dog/data.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="368">
-              <caret line="320" column="12" lean-forward="true" selection-start-line="320" selection-start-column="12" selection-end-line="320" selection-end-column="12" />
+            <state relative-caret-position="5776">
+              <caret line="310" column="21" lean-forward="true" selection-start-line="310" selection-start-column="21" selection-end-line="310" selection-end-column="21" />
               <folding>
                 <element signature="e#0#20#0" expanded="true" />
               </folding>
@@ -88,8 +98,8 @@
       <file leaf-file-name="net.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/dog/net.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="798">
-              <caret line="42" lean-forward="true" selection-start-line="42" selection-end-line="42" />
+            <state relative-caret-position="551">
+              <caret line="29" lean-forward="true" selection-start-line="29" selection-end-line="29" />
             </state>
           </provider>
         </entry>
@@ -98,11 +108,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>ths(</find>
-      <find>senMsgToBuddy</find>
-      <find>CRESTE TABLE IF NOT EXIST</find>
-      <find>sz</find>
-      <find>execute</find>
       <find>GP_CATCH_DIC</find>
       <find>1:</find>
       <find>[3:</find>
@@ -128,6 +133,11 @@
       <find>ts_updatecode</find>
       <find>sina_down</find>
       <find>day_xg</find>
+      <find>get_newweibo</find>
+      <find>主卖</find>
+      <find>net error</find>
+      <find>GP_PT_DIC</find>
+      <find>sendMsgToGroup</find>
     </findStrings>
     <replaceStrings>
       <replace>GP_XG_DIC</replace>
@@ -141,11 +151,11 @@
       <list>
         <option value="D:/python3.6/Lib/site-packages/sqlalchemy/engine/__init__.py" />
         <option value="$PROJECT_DIR$/dog/mysql.py" />
-        <option value="$PROJECT_DIR$/dog/qq.txt" />
-        <option value="$PROJECT_DIR$/dog/qq.py" />
         <option value="$PROJECT_DIR$/dog/net.py" />
-        <option value="$PROJECT_DIR$/dog/dog.py" />
         <option value="$PROJECT_DIR$/dog/data.py" />
+        <option value="$PROJECT_DIR$/dog/qq.txt" />
+        <option value="$PROJECT_DIR$/dog/dog.py" />
+        <option value="$PROJECT_DIR$/dog/qq.py" />
       </list>
     </option>
   </component>
@@ -158,9 +168,9 @@
   <component name="NodePackageJsonFileManager">
     <packageJsonPaths />
   </component>
-  <component name="ProjectFrameBounds">
-    <option name="x" value="241" />
-    <option name="y" value="114" />
+  <component name="ProjectFrameBounds" extendedState="1">
+    <option name="x" value="110" />
+    <option name="y" value="109" />
     <option name="width" value="1400" />
     <option name="height" value="910" />
   </component>
@@ -181,11 +191,6 @@
               <item name="code" type="b2602c69:ProjectViewProjectNode" />
               <item name="code" type="462c0819:PsiDirectoryNode" />
               <item name="dog" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="code" type="b2602c69:ProjectViewProjectNode" />
-              <item name="code" type="462c0819:PsiDirectoryNode" />
-              <item name="everydata" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="code" type="b2602c69:ProjectViewProjectNode" />
@@ -217,7 +222,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.data">
+  <component name="RunManager" selected="Python.dog">
     <configuration name="data" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="code" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -275,15 +280,36 @@
       <option name="EMULATE_TERMINAL" value="false" />
       <option name="MODULE_MODE" value="false" />
     </configuration>
+    <configuration name="weibo" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="code" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/weibo" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/weibo/weibo.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+    </configuration>
     <list>
       <item itemvalue="Python.mysql" />
       <item itemvalue="Python.data" />
       <item itemvalue="Python.dog" />
+      <item itemvalue="Python.weibo" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.data" />
         <item itemvalue="Python.dog" />
+        <item itemvalue="Python.weibo" />
+        <item itemvalue="Python.data" />
         <item itemvalue="Python.mysql" />
       </list>
     </recent_temporary>
@@ -302,7 +328,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="241" y="114" width="1400" height="910" extended-state="0" />
+    <frame x="110" y="109" width="1400" height="910" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info anchor="bottom" id="TODO" order="6" />
@@ -310,7 +336,7 @@
       <window_info anchor="bottom" id="Database Changes" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Version Control" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Python Console" order="7" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.298995" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.2650754" />
       <window_info anchor="bottom" id="Terminal" order="7" />
       <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.25" />
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
@@ -346,6 +372,137 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/dog/dog.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="7258">
+          <caret line="382" lean-forward="true" selection-start-line="382" selection-end-line="382" />
+          <folding>
+            <element signature="e#0#10#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/weibo/weibo.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="4522">
+          <caret line="238" column="17" lean-forward="true" selection-start-line="238" selection-start-column="17" selection-end-line="238" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/weibo/weibo.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="19">
+          <caret line="1" column="3" lean-forward="true" selection-start-line="1" selection-start-column="3" selection-end-line="1" selection-end-column="3" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/dog/qq.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="19">
+          <caret line="1" column="4" lean-forward="true" selection-start-line="1" selection-start-column="4" selection-end-line="1" selection-end-column="4" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/dog/qq.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="380">
+          <caret line="20" column="10" lean-forward="true" selection-start-line="20" selection-start-column="10" selection-end-line="20" selection-end-column="10" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/dog/data.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="5776">
+          <caret line="310" column="21" lean-forward="true" selection-start-line="310" selection-start-column="21" selection-end-line="310" selection-end-column="21" />
+          <folding>
+            <element signature="e#0#20#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/dog/mysql.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="969">
+          <caret line="51" column="3" selection-start-line="51" selection-start-column="3" selection-end-line="51" selection-end-column="3" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/dog/gp.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="40052">
+          <caret line="2108" column="9" selection-start-line="2108" selection-start-column="7" selection-end-line="2108" selection-end-column="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/dog/net.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="551">
+          <caret line="29" lean-forward="true" selection-start-line="29" selection-end-line="29" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/dog/dog.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="10811">
+          <caret line="569" column="14" lean-forward="true" selection-start-line="569" selection-start-column="14" selection-end-line="569" selection-end-column="14" />
+          <folding>
+            <element signature="e#0#10#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/weibo/weibo.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="931">
+          <caret line="49" column="37" selection-start-line="49" selection-start-column="37" selection-end-line="49" selection-end-column="37" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/dog/qq.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="19">
+          <caret line="1" column="6" selection-start-line="1" selection-start-column="6" selection-end-line="1" selection-end-column="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/dog/qq.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="399">
+          <caret line="21" column="34" lean-forward="true" selection-start-line="21" selection-start-column="34" selection-end-line="21" selection-end-column="34" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/dog/data.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="5776">
+          <caret line="310" column="21" lean-forward="true" selection-start-line="310" selection-start-column="21" selection-end-line="310" selection-end-column="21" />
+          <folding>
+            <element signature="e#0#20#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/dog/mysql.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="969">
+          <caret line="51" column="3" selection-start-line="51" selection-start-column="3" selection-end-line="51" selection-end-column="3" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/dog/gp.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="40052">
+          <caret line="2108" column="9" selection-start-line="2108" selection-start-column="7" selection-end-line="2108" selection-end-column="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/dog/net.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="798">
+          <caret line="42" lean-forward="true" selection-start-line="42" selection-end-line="42" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/dog/dog.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="8835">
@@ -463,9 +620,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1824">
           <caret line="96" lean-forward="true" selection-start-line="96" selection-end-line="96" />
-          <folding>
-            <element signature="e#2155#2335#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -514,9 +668,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="19">
           <caret line="96" selection-start-line="96" selection-end-line="96" />
-          <folding>
-            <element signature="e#2155#2335#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -558,48 +709,55 @@
     <entry file="file://$PROJECT_DIR$/dog/qq.txt">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="19">
-          <caret line="1" column="6" selection-start-line="1" selection-start-column="6" selection-end-line="1" selection-end-column="6" />
+          <caret line="1" column="4" lean-forward="true" selection-start-line="1" selection-start-column="4" selection-end-line="1" selection-end-column="4" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/weibo/weibo.py">
+    <entry file="file://$PROJECT_DIR$/dog/data.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="817">
-          <caret line="49" column="37" selection-start-line="49" selection-start-column="37" selection-end-line="49" selection-end-column="37" />
+        <state relative-caret-position="5776">
+          <caret line="310" column="21" lean-forward="true" selection-start-line="310" selection-start-column="21" selection-end-line="310" selection-end-column="21" />
+          <folding>
+            <element signature="e#0#20#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/dog/net.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="798">
-          <caret line="42" lean-forward="true" selection-start-line="42" selection-end-line="42" />
+        <state relative-caret-position="551">
+          <caret line="29" lean-forward="true" selection-start-line="29" selection-end-line="29" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/dog/qq.py">
+    <entry file="file://$PROJECT_DIR$/weibo/weibo.txt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="399">
-          <caret line="21" column="34" lean-forward="true" selection-start-line="21" selection-start-column="34" selection-end-line="21" selection-end-column="34" />
+        <state relative-caret-position="19">
+          <caret line="1" column="3" lean-forward="true" selection-start-line="1" selection-start-column="3" selection-end-line="1" selection-end-column="3" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/weibo/weibo.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="4408">
+          <caret line="238" column="17" selection-start-line="238" selection-start-column="17" selection-end-line="238" selection-end-column="17" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/dog/dog.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="599">
-          <caret line="583" column="10" lean-forward="true" selection-start-line="583" selection-start-column="10" selection-end-line="583" selection-end-column="10" />
+        <state relative-caret-position="9937">
+          <caret line="568" column="12" lean-forward="true" selection-start-line="568" selection-start-column="12" selection-end-line="568" selection-end-column="12" />
           <folding>
             <element signature="e#0#10#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/dog/data.py">
+    <entry file="file://$PROJECT_DIR$/dog/qq.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="368">
-          <caret line="320" column="12" lean-forward="true" selection-start-line="320" selection-start-column="12" selection-end-line="320" selection-end-column="12" />
-          <folding>
-            <element signature="e#0#20#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="114">
+          <caret line="12" column="24" lean-forward="true" selection-start-line="12" selection-start-column="24" selection-end-line="12" selection-end-column="24" />
         </state>
       </provider>
     </entry>
