@@ -50,3 +50,17 @@ def send(url,typ=0,default=0):
     else:
         print('html error:',code_of_html.status_code)
         return -1
+
+
+#send
+def sendpost(url,param):
+    try:
+        headers = defaultheaders()
+        code_of_html = requests.post(url, data=param, headers=headers)
+        if code_of_html.status_code != 200:
+            return -1
+    except Exception as ee:
+        print("net error")
+        return -1
+
+    return code_of_html.text

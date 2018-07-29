@@ -59,6 +59,44 @@ def getmax(a,b):
         return _b
 
 ###############################################################################################
+# 开盘啦
+###############################################################################################
+KPL_RUL = 'https://pchis.kaipanla.com/w1/api/index.php'
+KPL_CATCH_LIST = [] #开盘啦缓存列表
+def kpl():
+    global KPL_RUL
+    param = {}
+    param['a'] = 'GetPointPlate'
+    param['c'] = 'PCArrangeData'
+    param['Date'] = time.strftime("%Y-%m-%d", time.localtime())#'2018-07-27'
+    param['PointType'] = '1,2,3'
+    param['Token'] = '5905a7ec37fa0f49a74b8bcef802cea7'
+    param['UserID'] = '228432'
+    res = net.sendpost(KPL_RUL,param)
+    if res != -1:
+        global KPL_CATCH_LIST
+        data = json.loads(res)
+        for row in data['content']['List']:
+            tid = row['Time']
+            if tid in KPL_CATCH_LIST:
+                continue
+
+            KPL_CATCH_LIST.append(tid)
+            comment = row['Comment']
+            stock = row['Stock']
+            for stk in stock:
+                name = stk[1]
+                tip = '[' + name + ',' + stk[0] + ',' + str(stk[2]) + '%]'
+                comment = comment.replace(name,tip)
+
+            if FIRST_INIT != 1:
+                time_local = time.localtime(tid)
+                stime = time.strftime("%H:%M:%S", time_local)
+                s = '[开盘啦][' + stime + '] ' + comment
+                qq.senMsgToBuddy(s)
+                qq.sendMsgToGroup(s)
+
+###############################################################################################
 # 财联社
 ###############################################################################################
 CLS_CATCH_LIST = []  # 财联社缓存列表
@@ -525,7 +563,7 @@ def sc(id):
     if _omax >= _ztj:
         GP_SC_TIP_DIC.append(id)
         if FIRST_INIT != 1:
-            s = '[首次][' + _o[31] + '] ' + data['name'] + ' ' + id + ' 首次涨幅到3%'
+            s = '[涨幅][' + _o[31] + '] ' + data['name'] + ' ' + id + ' 首次涨幅到3%'
             qq.senMsgToBuddy(s)
             qq.sendMsgToGroup(s)
 
@@ -636,11 +674,6 @@ def gp():
                 # 7)
                 sc(_id)
 
-    # 7)
-    sina(50000)
-
-    # 8)
-    ths('过去两小时资金流入大于2亿')
 
     #_clock.stop()
     FIRST_INIT = 2
@@ -652,7 +685,9 @@ def gp():
 def execute():
     cls()
     gp()
-
+    sina(50000)
+    ths('过去两小时资金流入大于2亿')
+    kpl()
 
 def _init():
     mysql()
