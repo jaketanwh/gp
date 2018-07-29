@@ -3,8 +3,9 @@ import pandas as pd
 import pymysql
 import re
 import net
+from decimal import *
 #import json
-from sqlalchemy import create_engine
+#from sqlalchemy import create_engine
 #from pandasql import sqldf
 
 ######################################################################################
@@ -44,6 +45,15 @@ def getmmin(a, b):
     else:
         return _b
 
+def getdt(close,st):
+    if st:
+        _corl = 1.05
+    else:
+        _corl = 1.1
+    _dtj = Decimal(close / _corl).quantize(Decimal('0.00'))
+    _dtj = '{:g}'.format(float(_dtj))
+    return float(_dtj)
+
 ######################################################################################
 # tushare
 """ 
@@ -71,29 +81,42 @@ def ts_updatecode(conn):
 
     if today is not None:
         # print(today)
-        _list = []
+        _list = {}
         for i, row in today.iterrows():
-            _list.append(row['code'])
+            if row['name'].find('ST') >= 0:
+                st = 1
+            else:
+                st = 0
+            _list[row['code']] = st
+            #_list.append(row['code'])
             # print('i:'+str(i))
             # print(row)
 
         # 写入游标
         cursor = conn.cursor()
         # 创建code表
-        cursor.execute("CREATE TABLE IF NOT EXISTS code(code text)")
+        if table_exists(cursor, 'code') == 0:
+            cursor.execute("CREATE TABLE IF NOT EXISTS code(id text,st tinyint(1))")
+
         # 写入code表数据
-        for code in _list:
-            cursor.execute("SELECT * FROM code WHERE code=%s", code)
+        for key, value in _list.items():
+            cursor.execute("SELECT * FROM code WHERE id=%s", key)
             res = cursor.fetchall()
             if len(res) == 0:
-                print('insert ' + code)
-                cursor.execute("INSERT INTO code(code) VALUES('%s')" % code)
+                print('insert ' + key)
+                cursor.execute("INSERT INTO code(id,st) VALUES('%s','%d')" % (key,value))
+            else:
+                print('update ' + key)
+                cursor.execute(("UPDATE code SET st=%d WHERE id = '" + key + "'")%value)
 
         conn.commit()
         cursor.close()
-
     return 1
 
+
+#写入mysql连接
+#engine = create_engine('mysql://root:Admin123!@192.168.1.103/gp?charset=utf8')
+#engine = create_engine('mysql://root:admin123!@localhost/gp?charset=utf8')
 def ts_tosql(code,engine):
     df = ts.get_hist_data(code)  # start=sdate, end=edate
     if df is not None:
@@ -190,31 +213,33 @@ def sina_down(conn):
         index = index + 1
         code = row[0]
         ma = '5'
-        data = sina_get(code,'240', ma, '1')
+
+        data = sina_get(code,'240', ma, '99999')
         while data == -1:
-            data = sina_get(code, '240', ma, '1')
+            data = sina_get(code, '240', ma, '99999')
 
         if table_exists(cursor, code) == 0:
-            csql = "CREATE TABLE IF NOT EXISTS `" + code + "`(day text,open float,high float,low float,close float,volume float,ma_price5 float,ma_volume5 float,ma_price10 float,ma_volume10 float,ma_price20 float,ma_volume20 float)"
+            csql = "CREATE TABLE IF NOT EXISTS `" + code + "`(day date,open mediumint unsigned,high mediumint unsigned,low mediumint unsigned,close mediumint unsigned,volume bigint unsigned,ma_price5 mediumint unsigned,ma_volume5 bigint unsigned,ma_price10 mediumint unsigned,ma_volume10 bigint unsigned,ma_price20 mediumint unsigned,ma_volume20 bigint unsigned)"
             cursor.execute(csql)
 
+
         for o in data:
-            ssql = "SELECT * FROM `"+ code +"` WHERE day = '" + o['day'] + "'"
-            has = cursor.execute(ssql)
+            #ssql = "SELECT * FROM `"+ code +"` WHERE day = '" + o['day'] + "'"
+            has = 0#cursor.execute(ssql)
             if ('ma_price' + ma) in o.keys():
-                price = float(o['ma_price' + ma])
+                price = int(float(o['ma_price' + ma]) * 100)
             else:
                 price = 0
             if ('ma_volume' + ma) in o.keys():
-                volme = float(o['ma_volume' + ma])
+                volme = int(o['ma_volume' + ma])
             else:
                 volme = 0
             if has == 0:
-                s = "INSERT INTO `" + code + "`(day,open,high,low,close,volume,ma_price" + ma + ",ma_volume" + ma + ") VALUES('%s','%f','%f','%f','%f','%f','%f','%f')"
-                sql = s % (o['day'], float(o['open']), float(o['high']), float(o['low']), float(o['close']), float(o['volume']), price,volme)
+                s = "INSERT INTO `" + code + "`(day,open,high,low,close,volume,ma_price" + ma + ",ma_volume" + ma + ") VALUES('%s','%d','%d','%d','%d','%d','%d','%d')"
+                sql = s % (o['day'], int(float(o['open'])*100), int(float(o['high'])*100), int(float(o['low'])*100), int(float(o['close'])*100), int(o['volume']), price,volme)
             else:
                 s = "UPDATE `" + code + "` SET open=%f,high=%f,low=%f,close=%f,volume=%f,ma_price" + ma + "=%f,ma_volume" + ma +"=%f WHERE day = '" + o['day'] + "'"
-                sql = s % (float(o['open']), float(o['high']), float(o['low']), float(o['close']), float(o['volume']), price,volme)
+                sql = s % int((float(o['open'])*100), int(float(o['high'])*100), int(float(o['low'])*100), int(float(o['close'])*100), int(o['volume']), price,volme)
             cursor.execute(sql)
         conn.commit()
     cursor.close()
@@ -248,39 +273,39 @@ def day_xg(conn):
             for _row in _res:
                 val = _row[0]
                 if i < 10:
-                    _day10 = getmax(_day10, val)
+                    _day10 = max(_day10, val)
                 elif i < 20:
-                    _day20 = getmax(_day20, val)
+                    _day20 = max(_day20, val)
                 elif i < 30:
-                    _day30 = getmax(_day30, val)
+                    _day30 = max(_day30, val)
                 elif i < 40:
-                    _day40 = getmax(_day40, val)
+                    _day40 = max(_day40, val)
                 elif i < 50:
-                    _day50 = getmax(_day50, val)
+                    _day50 = max(_day50, val)
                 elif i < 60:
-                    _day60 = getmax(_day60, val)
+                    _day60 = max(_day60, val)
                 i = i + 1
             _len = len(_res)
             if _len == 60:
-                _day20 = getmax(_day10, _day20)
-                _day30 = getmax(_day20, _day30)
-                _day40 = getmax(_day30, _day40)
-                _day50 = getmax(_day40, _day50)
-                _day60 = getmax(_day50, _day60)
+                _day20 = max(_day10, _day20)
+                _day30 = max(_day20, _day30)
+                _day40 = max(_day30, _day40)
+                _day50 = max(_day40, _day50)
+                _day60 = max(_day50, _day60)
             elif _len > 50:
-                _day20 = getmax(_day10, _day20)
-                _day30 = getmax(_day20, _day30)
-                _day40 = getmax(_day30, _day40)
-                _day50 = getmax(_day40, _day50)
+                _day20 = max(_day10, _day20)
+                _day30 = max(_day20, _day30)
+                _day40 = max(_day30, _day40)
+                _day50 = max(_day40, _day50)
             elif _len > 40:
-                _day20 = getmax(_day10, _day20)
-                _day30 = getmax(_day20, _day30)
-                _day40 = getmax(_day30, _day40)
+                _day20 = max(_day10, _day20)
+                _day30 = max(_day20, _day30)
+                _day40 = max(_day30, _day40)
             elif _len > 30:
-                _day20 = getmax(_day10, _day20)
-                _day30 = getmax(_day20, _day30)
+                _day20 = max(_day10, _day20)
+                _day30 = max(_day20, _day30)
             elif _len > 20:
-                _day20 = getmax(_day10, _day20)
+                _day20 = max(_day10, _day20)
 
             _daylist = {}
             _daylist['10'] = _day10
@@ -294,17 +319,17 @@ def day_xg(conn):
 
     # 创建xg表
     if table_exists(cursor, 'xg') == 0:
-        cursor.execute("CREATE TABLE IF NOT EXISTS xg(code text, h10 float, h20 float, h30 float, h40 float, h50 float, h60 float)")
+        cursor.execute("CREATE TABLE IF NOT EXISTS xg(id text, h10 mediumint unsigned, h20 mediumint unsigned, h30 mediumint unsigned, h40 mediumint unsigned, h50 mediumint unsigned, h60 mediumint unsigned)")
 
     # 写入xg表数据
     print('正在写入...')
     for key, value in xglist.items():
-        cursor.execute("SELECT * FROM xg WHERE code = "+key)
+        cursor.execute("SELECT * FROM xg WHERE id = "+key)
         res = cursor.fetchall()
         if len(res) == 0:
-            cursor.execute("INSERT INTO xg(code,h10,h20,h30,h40,h50,h60) VALUES('%s','%f','%f','%f','%f','%f','%f')"%(key,value['10'],value['20'],value['30'],value['40'],value['50'],value['60']))
+            cursor.execute("INSERT INTO xg(id,h10,h20,h30,h40,h50,h60) VALUES('%s','%d','%d','%d','%d','%d','%d')"%(key,value['10'],value['20'],value['30'],value['40'],value['50'],value['60']))
         else:
-            cursor.execute("UPDATE xg SET h10 = %f, h20 = %f, h30 = %f, h40 = %f, h50 = %f, h60 = %f WHERE code=%s"%(value['10'],value['20'],value['30'],value['40'],value['50'],value['60'],key))
+            cursor.execute("UPDATE xg SET h10 = %d, h20 = %d, h30 = %d, h40 = %d, h50 = %d, h60 = %d WHERE code=%s"%(value['10'],value['20'],value['30'],value['40'],value['50'],value['60'],key))
 
     conn.commit()
     cursor.close()
@@ -350,40 +375,91 @@ def day_pt(conn):
     # 创建pt表
     if table_exists(cursor, 'pt') == 1:
         cursor.execute("DROP TABLE pt")
-    cursor.execute("CREATE TABLE IF NOT EXISTS pt(code text, high float, low float)")
+    cursor.execute("CREATE TABLE IF NOT EXISTS pt(id text, high mediumint unsigned, low mediumint unsigned)")
 
     # 写入pt表数据
     print('正在写入...')
     for key, value in xglist.items():
-        cursor.execute("INSERT INTO pt(code,high,low) VALUES('%s','%f','%f')" % (key, value['high'], value['low']))
+        cursor.execute("INSERT INTO pt(id,high,low) VALUES('%s','%d','%d')" % (key, value['high'], value['low']))
     conn.commit()
     cursor.close()
     print('平台数据更新完成')
+
+#更新连板数据
+def day_lb(conn):
+    print('连板数据开始更新')
+    lblist = {}
+    cursor = conn.cursor()
+    cursor.execute("SELECT * FROM code")
+    res = cursor.fetchall()
+    ires = 0
+    lenres = len(res)
+    for row in res:
+        ires = ires + 1
+        print('loading(' + str(ires) + '/' + str(lenres) + ')')
+        code = row[0]
+        st = row[1]
+        if table_exists(cursor, code) == 1:
+            cursor.execute("SELECT close FROM `" + code + "` p ORDER BY p.day DESC LIMIT 20")
+            _res = cursor.fetchall()
+            if len(_res) == 20:
+                #次新
+                _ban = 0
+                _lastclose = 0
+                for _row in _res:
+                    _close = _row[0] / 100
+                    if _lastclose == 0:
+                        _lastclose = _close
+                    else:
+                        _tmp = getdt(_lastclose,st == 1)
+                        if _tmp == _close:
+                            _lastclose = _close
+                            _ban = _ban + 1
+                        else:
+                            break
+                if _ban > 0:
+                    lblist[code] = _ban
+
+    # 创建lb表
+    if table_exists(cursor, 'lb') == 1:
+        cursor.execute("DROP TABLE lb")
+    cursor.execute("CREATE TABLE IF NOT EXISTS lb(id text, ban tinyint(1))")
+
+    # 写入lb表
+    print('正在写入...')
+    for key, value in lblist.items():
+        cursor.execute("INSERT INTO lb(id,ban) VALUES('%s','%d')" % (key, value))
+    conn.commit()
+    cursor.close()
+    print('连板数据更新完成')
 
 
 ######################################################################################
 # common
 ######################################################################################
-COMMON_TYPE = 1                 #数据接口 1.sina 2.ts
+#COMMON_TYPE = 1                 #数据接口 1.sina 2.ts
 def down(conn):
-    global COMMON_TYPE
-    if COMMON_TYPE == 1:
-        sina_down(conn)
+    sina_down(conn)
 
 def day(conn):
     #更新新高数据表
     day_xg(conn)
     #更新平台数据
     day_pt(conn)
+    #更新连板数据
+    day_lb(conn)
+
+def update(conn):
+    #更新code表
+    ts_updatecode(conn)
+
 
 if __name__ == "__main__":
     #读取mysql连接
-    conn = pymysql.connect(host='192.168.1.103', user='root', password='Admin123!', db='gp', port=3306, charset='utf8')
-    #conn = pymysql.connect(host='localhost', user='root', password='admin123!', db='gp', port=3306, charset='utf8')
-    #写入mysql连接
-    #engine = create_engine('mysql://root:Admin123!@192.168.1.103/gp?charset=utf8')
-    #engine = create_engine('mysql://root:admin123!@localhost/gp?charset=utf8')
-    down(conn)
+    #conn = pymysql.connect(host='192.168.1.103', user='root', password='Admin123!', db='gp', port=3306, charset='utf8')
+    conn = pymysql.connect(host='localhost', user='root', password='admin123!', db='gp', port=3306, charset='utf8')
+    #update(conn)
+    #down(conn)
     day(conn)
     #close
     conn.close()

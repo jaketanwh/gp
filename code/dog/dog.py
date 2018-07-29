@@ -7,15 +7,14 @@ from decimal import *
 import pymysql
 import re
 
-FIRST_INIT = 1
 ###############################################################################################
 # mysql
 ###############################################################################################
 MYSQL_CONN = 0
 def mysql():
     global MYSQL_CONN
-    #MYSQL_CONN = pymysql.connect(host='localhost', user='root', password='admin123!', db='gp', port=3306, charset='utf8')
-    MYSQL_CONN = pymysql.connect(host='192.168.1.103', user='root', password='Admin123!', db='gp', port=3306, charset='utf8')
+    MYSQL_CONN = pymysql.connect(host='localhost', user='root', password='admin123!', db='gp', port=3306, charset='utf8')
+    #MYSQL_CONN = pymysql.connect(host='192.168.1.103', user='root', password='Admin123!', db='gp', port=3306, charset='utf8')
 
 
 def closemysql():
@@ -104,15 +103,28 @@ def thsdata(condition):
     res = net.send(url, 1, 1)
     if res != -1:
         jdata = json.loads(res)
-        if jdata and jdata['data'] and jdata['data']['natural'] and jdata['data']['natural']['ck0']:
-            val = jdata['data']['natural']['ck0']
-            print(val)
-            return val
+        if jdata and jdata['data'] and jdata['data']['result'] and jdata['data']['result']['result']:
+            return jdata['data']['result']['result']
+    return -1
 
-THS_TIP_DIC = {}                    # 提示列表
+THS_TIP_DIC = []                    # 提示列表
 def ths(condition):
-    print('send ths')
-    val = thsdata(condition)
+    res = thsdata(condition)
+    if res != -1:
+        for row in res:
+            id = row[0].split('.')[0]
+            if id in THS_TIP_DIC:
+                continue
+            if FIRST_INIT != 1:
+                jz = Decimal(row[4] / 100000000).quantize(Decimal('0.00'))
+                jz = '{:g}'.format(float(jz))
+                jz = float(jz)
+                s = '[净额][' + time.strftime("%H:%M:%S", time.localtime()) + '] ' + row[1] + ' ' + id + ' 两小时净流入' + str(jz) + '亿'
+                qq.senMsgToBuddy(s)
+                qq.sendMsgToGroup(s)
+
+            THS_TIP_DIC.append(id)
+
 
 ###############################################################################################
 GP_CATCH_DIC = {}                       # 股票缓存字典
@@ -204,13 +216,14 @@ def sina(cnt):
 ###############################################################################################
 # 沪深股票
 ###############################################################################################
+FIRST_INIT = 2                          #初始化第一次是否send msg
 GP_ALL_STR_URL_LIST = []                # sina全部股票拼接url
 GP_ALL_STR_CNT = 710                    # sina拼接返回最大个数868
 GP_URL = 'http://hq.sinajs.cn/list='    # sina财经url
 
 #初始化
 def gpinit():
-    global GP_ALL_STR_URL_LIST,GP_ALL_STR_CNT,GP_CUR_DATE,GP_XG_DIC,GP_PT_DIC,MYSQL_CONN
+    global GP_ALL_STR_URL_LIST,GP_ALL_STR_CNT,GP_CUR_DATE,GP_XG_DIC,GP_PT_DIC,MYSQL_CONN,GP_LB_LIST
     _URL = GP_URL
     cnt = 0
 
@@ -221,12 +234,12 @@ def gpinit():
         res = cursor.fetchall()
         for row in res:
             rlist = {}
-            rlist[10] = row[1]
-            rlist[20] = row[2]
-            rlist[30] = row[3]
-            rlist[40] = row[4]
-            rlist[50] = row[5]
-            rlist[60] = row[6]
+            rlist[10] = row[1] / 100
+            rlist[20] = row[2] / 100
+            rlist[30] = row[3] / 100
+            rlist[40] = row[4] / 100
+            rlist[50] = row[5] / 100
+            rlist[60] = row[6] / 100
             GP_XG_DIC[row[0]] = rlist
 
         # local pt
@@ -234,12 +247,17 @@ def gpinit():
         res = cursor.fetchall()
         for row in res:
             rlist = {}
-            rlist['high'] = row[1]
-            rlist['low'] = row[2]
+            rlist['high'] = row[1] / 100
+            rlist['low'] = row[2] / 100
             GP_PT_DIC[row[0]] = rlist
 
-        cursor.close()
+        # local lb
+        cursor.execute("SELECT * FROM lb")
+        res = cursor.fetchall()
+        for row in res:
+            GP_LB_LIST[row[0]] = row[1]
 
+        cursor.close()
 
 
     # load data for sina
@@ -272,16 +290,24 @@ def gpinit():
     GP_CUR_DATE = lastdate.strftime('%Y-%m-%d')
 
 #涨停跌停通知
+GP_CZT_LIST = []                        #冲涨停列表
+GP_CHECK_ZT_LIST = {}                   #检测涨停列表
 GP_ZT_LIST = []                         #涨停列表
+GP_CDT_LIST = []                        #冲跌停列表
+GP_CHECK_DT_LIST = {}                   #检测跌停列表
 GP_DT_LIST = []                         #跌停列表
+GP_LB_LIST = {}                         #连板列表
 GP_CUR_DATE = 0                         #当前日期 非交易日向前推
 def zd(id):
-    global GP_CATCH_DIC,GP_ZT_LIST,GP_DT_LIST,FIRST_INIT
+    global GP_CATCH_DIC,GP_CZT_LIST,GP_CHECK_ZT_LIST,GP_ZT_LIST,FIRST_INIT,GP_LB_LIST
     data = GP_CATCH_DIC[id]
     _o = data['list']#[-1]
-    _ozsp = float(data['ed'])       #昨日收盘价格
-    _ocur = float(_o[3])            #当前价格
-    _ost = data['st']              #是否st
+    _ozsp = float(data.get('ed', 0))        #昨日收盘价格
+    _ocur = float(_o[3])                    #当前价格
+    _open = float(data.get('s', 0))         #开盘价
+    _otime = _o[31]                         #时间
+    _ost = data.get('st',False)             #是否st
+    _oname = data.get('name','')            #名字
 
     #停盘 或 平盘
     if _ozsp == _ocur:
@@ -298,23 +324,45 @@ def zd(id):
     #_ztj = round(_ozsp * _corl,2)
     if _ztj == _ocur:
         #新增涨停板
-        if id not in GP_ZT_LIST:
+        if id not in GP_CZT_LIST:
             if FIRST_INIT != 1:
-                s = '[涨停][' + _o[31] + '] ' + data['name'] + ' ' + id + ' 冲击涨停'
+                if _open == _ocur:
+                    s = '[竞价][' + _otime + '] ' + _oname + ' ' + id + ' 竞价涨停'
+                    #timeArray = _otime.split(':')
+                    #if int(timeArray[0]) == 9 and int(timeArray[1]) < 30:
+                    #else:
+                    #    s = '[涨停][' + _otime + '] ' + data['name'] + ' ' + id + ' 冲击涨停'
+                else:
+                    s = '[涨停][' + _otime + '] ' + _oname + ' ' + id + ' 冲击涨停'
+
+                if id in GP_LB_LIST.keys():
+                    s = s + '（' + str(GP_LB_LIST[id]) + '连板)'
+                else:
+                    s = s + '(首板)'
+
                 qq.senMsgToBuddy(s)
                 qq.sendMsgToGroup(s)
-            GP_ZT_LIST.append(id)
-            return
+            GP_CZT_LIST.append(id)
+            GP_CHECK_ZT_LIST[id] = time.time()
+        elif id not in GP_ZT_LIST:
+            ltime = GP_CHECK_ZT_LIST[id]
+            if time.time() - ltime > 20:
+                GP_CHECK_ZT_LIST.pop(id)
+                GP_ZT_LIST.append(id)
+                #int(_os[10]) * _ocur  # “买一”申请4695股，即47手
+        return
     else:
         #涨停开板
         if id in GP_ZT_LIST:
             if FIRST_INIT != 1:
-                s = '[开板][' + _o[31] + '] ' + data['name'] + ' ' + id + ' 打开涨停板'
+                s = '[开板][' + _otime + '] ' + _oname + ' ' + id + ' 打开涨停板'
                 qq.senMsgToBuddy(s)
                 qq.sendMsgToGroup(s)
             GP_ZT_LIST.remove(id)
+            GP_CZT_LIST.remove(id)
             return
 
+    global GP_CDT_LIST,GP_CHECK_DT_LIST,GP_DT_LIST
     #跌停
     if _ost:
         _corl = 0.95
@@ -326,21 +374,32 @@ def zd(id):
     #_dtj = round(_ozsp * _corl,2)
     if _dtj == _ocur:
         #新增跌停板
-        if id not in GP_DT_LIST:
+        if id not in GP_CDT_LIST:
             if FIRST_INIT != 1:
-                s = '[跌停][' + _o[31] + '] ' + data['name'] + ' ' + id + ' 跌停'
+                if _open == _ocur:
+                    s = '[竞价][' + _otime + '] ' + _oname + ' ' + id + ' 竞价跌停'
+                else:
+                    s = '[跌停][' + _otime + '] ' + _oname + ' ' + id + ' 跌停'
                 qq.senMsgToBuddy(s)
                 qq.sendMsgToGroup(s)
-            GP_DT_LIST.append(id)
-            return
+            GP_CDT_LIST.append(id)
+            GP_CHECK_DT_LIST[id] = time.time()
+        elif id not in GP_DT_LIST:
+            ltime = GP_CHECK_DT_LIST[id]
+            if time.time() - ltime > 20:
+                GP_CHECK_DT_LIST.pop(id)
+                GP_DT_LIST.append(id)
+                #int(_os[10]) * _ocur  # “买一”申请4695股，即47手
+        return
     else:
         #跌停开板
         if id in GP_DT_LIST:
             if FIRST_INIT != 1:
-                s = '[翘板][' + _o[31] + '] ' + data['name'] + ' ' + id + ' 打开跌停板'
+                s = '[翘板][' + _otime + '] ' + _oname + ' ' + id + ' 打开跌停板'
                 qq.senMsgToBuddy(s)
                 qq.sendMsgToGroup(s)
             GP_DT_LIST.remove(id)
+            GP_CDT_LIST.remove(id)
             return
     #print('  GP_ZT_LIST cnt:' + str(len(GP_ZT_LIST)) + '  GP_DT_LIST cnt:' + str(len(GP_DT_LIST)))
     #print(GP_ZT_LIST)
@@ -351,12 +410,11 @@ GP_XG_TIP_DIC = {}                    # 新高提示列表
 def xg(id):
     global GP_CATCH_DIC,GP_XG_DIC,GP_XG_TIP_DIC,FIRST_INIT
     data = GP_CATCH_DIC[id]
-    _o = data['list']#[-1]
-    #_ocur = float(_o[3])            #当前价格
+    _o = data.get('list',[])
     _omax = float(_o[4])            # 今日最高价
 
     #没有数据
-    if id not in GP_XG_DIC:
+    if id not in GP_XG_DIC.keys():
         return
 
     xgdata = GP_XG_DIC.get(id,{})
@@ -388,7 +446,7 @@ GP_PT_TIP_D_LIST = []     #突破平台提示 向下
 def pt(id):
     global GP_CATCH_DIC,GP_PT_DIC,GP_PT_TIP_U_LIST,GP_PT_TIP_D_LIST,FIRST_INIT
     data = GP_CATCH_DIC[id]
-    _o = data['list']#[-1]
+    _o = data.get('list', [])
     _ocur = float(_o[3])  # 当前价格
 
     # 停牌
@@ -396,8 +454,9 @@ def pt(id):
         return
 
     # 没有数据
-    if id not in GP_PT_DIC:
+    if id not in GP_PT_DIC.keys():
         return
+
     ptdata = GP_PT_DIC.get(id,{})
 
     # 向上
@@ -429,13 +488,44 @@ def ks(id):
         return
 
     data = GP_CATCH_DIC[id]
-    _o = data['list']#[-1]
-    _olast = float(data['last'])    # 上次价格
-    _ocur = float(_o[3])            # 当前价格
-    if _ocur > _olast * 1.3:
+    _o = data['list']
+    _olast = data['last']       # 上次价格
+    _ocur = float(_o[3])        # 当前价格
+    _olast.append(_ocur)
+    llen = len(_olast)
+    if llen < 5:
+        return
+    elif llen > 10:
+        del _olast[0]
+    GP_CATCH_DIC[id]['last'] = _olast
+    lmin = min(_olast)
+    lks = int((_ocur - lmin) / lmin * 100)
+    if lks > 3:
         GP_KS_TIP_DIC.append(id)
         if FIRST_INIT != 1:
-            s = '[拉升][' + _o[31] + '] ' + data['name'] + ' ' + id + ' 快速拉升超过3%'
+            s = '[拉升][' + _o[31] + '] ' + data['name'] + ' ' + id + ' 快速拉升涨超过' + str(lks) + '%'
+            qq.senMsgToBuddy(s)
+            qq.sendMsgToGroup(s)
+
+
+#首次涨到3%
+GP_SC_TIP_DIC = []          #首次涨3%
+def sc(id):
+    global GP_CATCH_DIC, GP_SC_TIP_DIC, FIRST_INIT
+    if id in GP_SC_TIP_DIC:
+        return
+
+    data = GP_CATCH_DIC[id]
+    _o = data['list']
+    _omax = float(_o[4])           #今日最高价
+    _ozs = float(data['ed'])       #昨日收盘价
+    _ztj = Decimal(_ozs * 1.03).quantize(Decimal('0.00'))
+    _ztj = '{:g}'.format(float(_ztj))
+    _ztj = float(_ztj)
+    if _omax >= _ztj:
+        GP_SC_TIP_DIC.append(id)
+        if FIRST_INIT != 1:
+            s = '[首次][' + _o[31] + '] ' + data['name'] + ' ' + id + ' 首次涨幅到3%'
             qq.senMsgToBuddy(s)
             qq.sendMsgToGroup(s)
 
@@ -469,12 +559,11 @@ def gp():
                 data = o[8:][:-1]
                 _o = data.split(',')
                 _31 = _o[31]  # 时间
-                #dic['list'] = []
                 tmplist = GP_CATCH_DIC[_id]['list']
 
                 # 1)数据去重
                 _len = len(tmplist)
-                if _len > 0 and tmplist[31] == _31:#[-1]
+                if _len > 0 and tmplist[31] == _31:
                     continue
 
                 # 2)收集数据
@@ -515,11 +604,13 @@ def gp():
                 if _len == 0:
                     _oname = _o[0]
                     GP_CATCH_DIC[_id]['name'] = _oname
-                    GP_CATCH_DIC[_id]['st'] = _o[1]
+                    GP_CATCH_DIC[_id]['s'] = _o[1]
                     GP_CATCH_DIC[_id]['ed'] = _o[2]
                     GP_CATCH_DIC[_id]['date'] = _o[30]
                     GP_CATCH_DIC[_id]['st'] = _oname.find('ST') >= 0
-                    GP_CATCH_DIC[_id]['last'] = _o[3]
+                    GP_CATCH_DIC[_id]['last'] = []
+                    GP_CATCH_DIC[_id]['last'].append(float(_o[3]))
+
 
                 #名字 开盘价 昨收价 日期只保存一份
                 _o[0] = 0
@@ -528,32 +619,31 @@ def gp():
                 _o[30] = 0
 
                 GP_CATCH_DIC[_id]['list'] = _o
-                #GP_CATCH_DIC[_id]['list'].append(_o)
 
                 #以下开始每帧策略
                 # 3)
                 zd(_id)
 
                 # 4)
-                #xg(_id)
+                xg(_id)
 
                 # 5)
-                #pt(_id)
+                pt(_id)
 
                 # 6)
                 ks(_id)
 
-                GP_CATCH_DIC[_id]['last'] = _o[3]
+                # 7)
+                sc(_id)
 
     # 7)
-    #ths('过去五小时资金流入大于2亿')
+    sina(50000)
 
     # 8)
-    sina(50000)
-    #print(GP_CATCH_DIC)
+    ths('过去两小时资金流入大于2亿')
+
     #_clock.stop()
     FIRST_INIT = 2
-
 
 
 ###############################################################################################
