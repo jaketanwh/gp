@@ -458,8 +458,8 @@ if __name__ == "__main__":
     #读取mysql连接
     #conn = pymysql.connect(host='192.168.1.103', user='root', password='Admin123!', db='gp', port=3306, charset='utf8')
     conn = pymysql.connect(host='localhost', user='root', password='admin123!', db='gp', port=3306, charset='utf8')
-    #update(conn)
-    #down(conn)
+    update(conn)
+    down(conn)
     day(conn)
     #close
     conn.close()
