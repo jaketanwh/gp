@@ -214,9 +214,9 @@ def sina_down(conn):
         code = row[0]
         ma = '5'
 
-        data = sina_get(code,'240', ma, '99999')
+        data = sina_get(code,'240', ma, '1')
         while data == -1:
-            data = sina_get(code, '240', ma, '99999')
+            data = sina_get(code, '240', ma, '1')
 
         if table_exists(cursor, code) == 0:
             csql = "CREATE TABLE IF NOT EXISTS `" + code + "`(day date,open mediumint unsigned,high mediumint unsigned,low mediumint unsigned,close mediumint unsigned,volume bigint unsigned,ma_price5 mediumint unsigned,ma_volume5 bigint unsigned,ma_price10 mediumint unsigned,ma_volume10 bigint unsigned,ma_price20 mediumint unsigned,ma_volume20 bigint unsigned)"
@@ -224,8 +224,8 @@ def sina_down(conn):
 
 
         for o in data:
-            #ssql = "SELECT * FROM `"+ code +"` WHERE day = '" + o['day'] + "'"
-            has = 0#cursor.execute(ssql)
+            ssql = "SELECT * FROM `"+ code +"` WHERE day = '" + o['day'] + "'"
+            has = cursor.execute(ssql)
             if ('ma_price' + ma) in o.keys():
                 price = int(float(o['ma_price' + ma]) * 100)
             else:
@@ -238,8 +238,8 @@ def sina_down(conn):
                 s = "INSERT INTO `" + code + "`(day,open,high,low,close,volume,ma_price" + ma + ",ma_volume" + ma + ") VALUES('%s','%d','%d','%d','%d','%d','%d','%d')"
                 sql = s % (o['day'], int(float(o['open'])*100), int(float(o['high'])*100), int(float(o['low'])*100), int(float(o['close'])*100), int(o['volume']), price,volme)
             else:
-                s = "UPDATE `" + code + "` SET open=%f,high=%f,low=%f,close=%f,volume=%f,ma_price" + ma + "=%f,ma_volume" + ma +"=%f WHERE day = '" + o['day'] + "'"
-                sql = s % int((float(o['open'])*100), int(float(o['high'])*100), int(float(o['low'])*100), int(float(o['close'])*100), int(o['volume']), price,volme)
+                s = "UPDATE `" + code + "` SET open=%d,high=%d,low=%d,close=%d,volume=%d,ma_price" + ma + "=%d,ma_volume" + ma +"=%d WHERE day = '" + o['day'] + "'"
+                sql = s % (int(float(o['open'])*100), int(float(o['high'])*100), int(float(o['low'])*100), int(float(o['close'])*100), int(o['volume']), price,volme)
             cursor.execute(sql)
         conn.commit()
     cursor.close()
@@ -329,7 +329,7 @@ def day_xg(conn):
         if len(res) == 0:
             cursor.execute("INSERT INTO xg(id,h10,h20,h30,h40,h50,h60) VALUES('%s','%d','%d','%d','%d','%d','%d')"%(key,value['10'],value['20'],value['30'],value['40'],value['50'],value['60']))
         else:
-            cursor.execute("UPDATE xg SET h10 = %d, h20 = %d, h30 = %d, h40 = %d, h50 = %d, h60 = %d WHERE code=%s"%(value['10'],value['20'],value['30'],value['40'],value['50'],value['60'],key))
+            cursor.execute("UPDATE xg SET h10 = %d, h20 = %d, h30 = %d, h40 = %d, h50 = %d, h60 = %d WHERE id=%s"%(value['10'],value['20'],value['30'],value['40'],value['50'],value['60'],key))
 
     conn.commit()
     cursor.close()
