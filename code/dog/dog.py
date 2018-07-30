@@ -13,8 +13,8 @@ import re
 MYSQL_CONN = 0
 def mysql():
     global MYSQL_CONN
-    MYSQL_CONN = pymysql.connect(host='localhost', user='root', password='admin123!', db='gp', port=3306, charset='utf8')
-    #MYSQL_CONN = pymysql.connect(host='192.168.1.103', user='root', password='Admin123!', db='gp', port=3306, charset='utf8')
+    #MYSQL_CONN = pymysql.connect(host='localhost', user='root', password='admin123!', db='gp', port=3306, charset='utf8')
+    MYSQL_CONN = pymysql.connect(host='192.168.1.103', user='root', password='Admin123!', db='gp', port=3306, charset='utf8')
 
 
 def closemysql():
@@ -61,20 +61,24 @@ def getmax(a,b):
 ###############################################################################################
 # 开盘啦
 ###############################################################################################
-KPL_RUL = 'https://pchis.kaipanla.com/w1/api/index.php'
+#KPL_RUL = 'https://pchis.kaipanla.com/w1/api/index.php'
+KPL_RUL = 'https://pchq.kaipanla.com/w1/api/index.php'
 KPL_CATCH_LIST = [] #开盘啦缓存列表
 def kpl():
     global KPL_RUL
     param = {}
     param['a'] = 'GetPointPlate'
     param['c'] = 'PCArrangeData'
-    param['Date'] = time.strftime("%Y-%m-%d", time.localtime())#'2018-07-27'
+    param['Index'] = '0'
     param['PointType'] = '1,2,3'
+    param['st'] = '1'
+    #param['Date'] = '2018-07-30'#time.strftime("%Y-%m-%d", time.localtime())#
     param['Token'] = '5905a7ec37fa0f49a74b8bcef802cea7'
     param['UserID'] = '228432'
     res = net.sendpost(KPL_RUL,param)
     if res != -1:
         global KPL_CATCH_LIST
+        print(res)
         data = json.loads(res)
         for row in data['content']['List']:
             tid = row['Time']
@@ -95,6 +99,7 @@ def kpl():
                 s = '[开盘啦][' + stime + '] ' + comment
                 qq.senMsgToBuddy(s)
                 qq.sendMsgToGroup(s)
+
 
 ###############################################################################################
 # 财联社
@@ -254,7 +259,7 @@ def sina(cnt):
 ###############################################################################################
 # 沪深股票
 ###############################################################################################
-FIRST_INIT = 2                          #初始化第一次是否send msg
+FIRST_INIT = 1                          #初始化第一次是否send msg
 GP_ALL_STR_URL_LIST = []                # sina全部股票拼接url
 GP_ALL_STR_CNT = 710                    # sina拼接返回最大个数868
 GP_URL = 'http://hq.sinajs.cn/list='    # sina财经url
@@ -329,15 +334,22 @@ def gpinit():
 
 #涨停跌停通知
 GP_CZT_LIST = []                        #冲涨停列表
-GP_CHECK_ZT_LIST = {}                   #检测涨停列表
-GP_ZT_LIST = []                         #涨停列表
+#GP_CHECK_ZT_LIST = {}                   #检测涨停列表
+#GP_ZT_LIST = []                         #涨停列表
 GP_CDT_LIST = []                        #冲跌停列表
-GP_CHECK_DT_LIST = {}                   #检测跌停列表
-GP_DT_LIST = []                         #跌停列表
+#GP_CHECK_DT_LIST = {}                   #检测跌停列表
+#GP_DT_LIST = []                         #跌停列表
 GP_LB_LIST = {}                         #连板列表
 GP_CUR_DATE = 0                         #当前日期 非交易日向前推
+#GP_ZT_CNT = {}                          #涨停次数
+#GP_DT_CNT = {}                          #跌停次数
 def zd(id):
-    global GP_CATCH_DIC,GP_CZT_LIST,GP_CHECK_ZT_LIST,GP_ZT_LIST,FIRST_INIT,GP_LB_LIST
+    global GP_CATCH_DIC,GP_CZT_LIST,FIRST_INIT,GP_LB_LIST#GP_CHECK_ZT_LIST,GP_DT_CNT,GP_ZT_CNT,GP_ZT_LIST
+
+    #提醒次数过多
+    #if (id in GP_ZT_CNT.keys() and GP_ZT_CNT[id] > 4) or (id in GP_DT_CNT.keys() and GP_DT_CNT[id] > 4):
+    #    return
+
     data = GP_CATCH_DIC[id]
     _o = data['list']#[-1]
     _ozsp = float(data.get('ed', 0))        #昨日收盘价格
@@ -374,33 +386,39 @@ def zd(id):
                     s = '[涨停][' + _otime + '] ' + _oname + ' ' + id + ' 冲击涨停'
 
                 if id in GP_LB_LIST.keys():
-                    s = s + '（' + str(GP_LB_LIST[id]) + '连板)'
+                    s = s + '（' + str(GP_LB_LIST[id] + 1) + '连板)'
                 else:
                     s = s + '(首板)'
-
                 qq.senMsgToBuddy(s)
                 qq.sendMsgToGroup(s)
             GP_CZT_LIST.append(id)
+            '''
             GP_CHECK_ZT_LIST[id] = time.time()
         elif id not in GP_ZT_LIST:
             ltime = GP_CHECK_ZT_LIST[id]
-            if time.time() - ltime > 20:
+            if time.time() - ltime > 60:
                 GP_CHECK_ZT_LIST.pop(id)
                 GP_ZT_LIST.append(id)
                 #int(_os[10]) * _ocur  # “买一”申请4695股，即47手
+                '''
         return
+    '''
     else:
         #涨停开板
         if id in GP_ZT_LIST:
             if FIRST_INIT != 1:
+                if id in GP_ZT_CNT.keys():
+                    GP_ZT_CNT[id] = GP_ZT_CNT[id] + 1
+                else:
+                    GP_ZT_CNT[id] = 1
                 s = '[开板][' + _otime + '] ' + _oname + ' ' + id + ' 打开涨停板'
                 qq.senMsgToBuddy(s)
                 qq.sendMsgToGroup(s)
             GP_ZT_LIST.remove(id)
             GP_CZT_LIST.remove(id)
             return
-
-    global GP_CDT_LIST,GP_CHECK_DT_LIST,GP_DT_LIST
+'''
+    global GP_CDT_LIST#GP_CHECK_DT_LIST,GP_DT_LIST
     #跌停
     if _ost:
         _corl = 0.95
@@ -421,10 +439,11 @@ def zd(id):
                 qq.senMsgToBuddy(s)
                 qq.sendMsgToGroup(s)
             GP_CDT_LIST.append(id)
+            '''
             GP_CHECK_DT_LIST[id] = time.time()
         elif id not in GP_DT_LIST:
             ltime = GP_CHECK_DT_LIST[id]
-            if time.time() - ltime > 20:
+            if time.time() - ltime > 60:
                 GP_CHECK_DT_LIST.pop(id)
                 GP_DT_LIST.append(id)
                 #int(_os[10]) * _ocur  # “买一”申请4695股，即47手
@@ -433,6 +452,10 @@ def zd(id):
         #跌停开板
         if id in GP_DT_LIST:
             if FIRST_INIT != 1:
+                if id in GP_DT_CNT.keys():
+                    GP_DT_CNT[id] = GP_DT_CNT[id] + 1
+                else:
+                    GP_DT_CNT[id] = 1
                 s = '[翘板][' + _otime + '] ' + _oname + ' ' + id + ' 打开跌停板'
                 qq.senMsgToBuddy(s)
                 qq.sendMsgToGroup(s)
@@ -441,6 +464,7 @@ def zd(id):
             return
     #print('  GP_ZT_LIST cnt:' + str(len(GP_ZT_LIST)) + '  GP_DT_LIST cnt:' + str(len(GP_DT_LIST)))
     #print(GP_ZT_LIST)
+    '''
 
 #股价新高通知
 GP_XG_DIC = {}                        # 股票新高记录
@@ -519,12 +543,8 @@ def pt(id):
 
 
 #快速拉升3%以上
-GP_KS_TIP_DIC = []          #快速提示记录
 def ks(id):
-    global GP_CATCH_DIC,GP_KS_TIP_DIC,FIRST_INIT
-    if id in GP_KS_TIP_DIC:
-        return
-
+    global GP_CATCH_DIC,FIRST_INIT
     data = GP_CATCH_DIC[id]
     _o = data['list']
     _olast = data['last']       # 上次价格
@@ -532,18 +552,40 @@ def ks(id):
     _olast.append(_ocur)
     llen = len(_olast)
     if llen < 5:
+        GP_CATCH_DIC[id]['last'] = _olast
         return
     elif llen > 10:
         del _olast[0]
-    GP_CATCH_DIC[id]['last'] = _olast
+        GP_CATCH_DIC[id]['last'] = _olast
     lmin = min(_olast)
+    if lmin <= 0:
+        print('lmin<=0  id:'+ id)
+        print(_olast)
+        return
     lks = int((_ocur - lmin) / lmin * 100)
     if lks > 3:
-        GP_KS_TIP_DIC.append(id)
         if FIRST_INIT != 1:
+            GP_CATCH_DIC[id]['last'] = []
+            GP_CATCH_DIC[id]['last'].append(float(_ocur))
             s = '[拉升][' + _o[31] + '] ' + data['name'] + ' ' + id + ' 快速拉升涨超过' + str(lks) + '%'
             qq.senMsgToBuddy(s)
             qq.sendMsgToGroup(s)
+        return
+
+    lmax = max(_olast)
+    if _ocur <= 0:
+        print('_ocur<=0 id:' + id)
+        print(_olast)
+        return
+    ldks = int((lmax - _ocur) / _ocur * 100)
+    if ldks > 3:
+        if FIRST_INIT != 1:
+            GP_CATCH_DIC[id]['last'] = []
+            GP_CATCH_DIC[id]['last'].append(float(_ocur))
+            s = '[跳水][' + _o[31] + '] ' + data['name'] + ' ' + id + ' 快速跳水超过' + str(ldks) + '%'
+            qq.senMsgToBuddy(s)
+            qq.sendMsgToGroup(s)
+        return
 
 
 #首次涨到3%
@@ -576,7 +618,7 @@ def gp():
 
     # TODO 待优化:
     # 1.多线程发送协议,运行策略与请求数据分别进行
-    # 2.停盘 新股去除判定
+    # 2.未开板新股去除判定
     for url in GP_ALL_STR_URL_LIST:
         res = net.send(url, 0, 0)
         if res != -1:
@@ -599,9 +641,13 @@ def gp():
                 _31 = _o[31]  # 时间
                 tmplist = GP_CATCH_DIC[_id]['list']
 
-                # 1)数据去重
+                # 1)
+                # 数据去重
                 _len = len(tmplist)
                 if _len > 0 and tmplist[31] == _31:
+                    continue
+                # 停盘去除
+                if float(_o[3]) == 0:
                     continue
 
                 # 2)收集数据
@@ -676,7 +722,6 @@ def gp():
 
 
     #_clock.stop()
-    FIRST_INIT = 2
 
 
 ###############################################################################################
@@ -686,8 +731,9 @@ def execute():
     cls()
     gp()
     sina(50000)
-    ths('过去两小时资金流入大于2亿')
+    #ths('过去两小时资金流入大于2亿')
     kpl()
+
 
 def _init():
     mysql()
@@ -700,6 +746,7 @@ def _del():
 def do_while():
     while True:
         execute()
+        FIRST_INIT = 2
         time.sleep(3)
 
 if __name__ == "__main__":
