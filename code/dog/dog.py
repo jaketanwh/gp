@@ -14,7 +14,7 @@ MYSQL_CONN = 0
 def mysql():
     global MYSQL_CONN
     #MYSQL_CONN = pymysql.connect(host='localhost', user='root', password='admin123!', db='gp', port=3306, charset='utf8')
-    MYSQL_CONN = pymysql.connect(host='192.168.1.103', user='root', password='Admin123!', db='gp', port=3306, charset='utf8')
+    MYSQL_CONN = pymysql.connect(host='192.168.1.103', user='root', password='admin123!', db='gp', port=3306, charset='utf8')
 
 
 def closemysql():
