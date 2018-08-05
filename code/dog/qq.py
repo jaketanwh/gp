@@ -8,8 +8,6 @@ QQ_BUDDY_LIST = []      #好友列表
 #################################################################################################################
 # qq
 def sendMsgToGroup(msg):
-    print('sendMsgToGroup:' + msg)
-    return
     global QQ_GROUP_LIST
     if (len(QQ_GROUP_LIST) > 0 and QQ_GROUP_LIST[0] != ''):
         for group in QQ_GROUP_LIST:

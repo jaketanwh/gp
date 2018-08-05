@@ -77,9 +77,12 @@ def kpl():
     param['UserID'] = '228432'
     res = net.sendpost(KPL_RUL,param)
     if res != -1:
-        global KPL_CATCH_LIST
-        print(res)
-        data = json.loads(res)
+        global KPL_CATCH_LIST,FIRST_INIT
+        try:
+            data = json.loads(res)
+        except Exception as ee:
+            print("json error")
+            return -1
         for row in data['content']['List']:
             tid = row['Time']
             if tid in KPL_CATCH_LIST:
@@ -100,6 +103,41 @@ def kpl():
                 qq.senMsgToBuddy(s)
                 qq.sendMsgToGroup(s)
 
+KPL_ZLJE_LIST = [] #开盘啦主力净额列表
+def kplje():
+    global KPL_RUL
+    param = {}
+    param['a'] = 'KanPanNew'
+    param['c'] = 'YiDongKanPan'
+    param['Index'] = '0'
+    param['Order'] = '9'
+    param['st'] = '24'
+    param['Token'] = '5905a7ec37fa0f49a74b8bcef802cea7'
+    param['UserID'] = '228432'
+    res = net.sendpost(KPL_RUL,param)
+    if res != -1:
+        try:
+            data = json.loads(res)
+        except Exception as ee:
+            print("json error")
+            return -1
+
+        global KPL_ZLJE_LIST,FIRST_INIT
+        for row in data['List']:
+            code = row['stock_code']
+            if code in KPL_ZLJE_LIST:
+                continue
+
+            ZJJE = row['ZJJE']
+            jz = Decimal(ZJJE / 100000000).quantize(Decimal('0.00'))
+            jz = '{:g}'.format(float(jz))
+            jz = float(jz)
+            if jz > 2:
+                if FIRST_INIT != 1:
+                    s = '[主力净额][' + time.strftime("%H:%M:%S", time.localtime()) + '] ' + row['stock_name'] + ' ' + code + ' 本日净流入' + str(jz) + '亿'
+                    qq.senMsgToBuddy(s)
+                    qq.sendMsgToGroup(s)
+                KPL_ZLJE_LIST.append(code)
 
 ###############################################################################################
 # 财联社
@@ -114,7 +152,7 @@ def cls():
         baseinfo = format('__NEXT_DATA__ = ', '\n          module=', res)
         if len(baseinfo) <= 0:
             return
-
+        global FIRST_INIT
         data = json.loads(baseinfo[0])
         dataList = data['props']['initialState']['telegraph']['dataList']
         for info in dataList:
@@ -154,6 +192,7 @@ THS_TIP_DIC = []                    # 提示列表
 def ths(condition):
     res = thsdata(condition)
     if res != -1:
+        global FIRST_INIT
         for row in res:
             id = row[0].split('.')[0]
             if id in THS_TIP_DIC:
@@ -196,6 +235,9 @@ def sina(cnt):
     res = res.replace('volume', '"volume"')
     res = res.replace('prev_price', '"prev_price"')
     res = res.replace('kind:', '"kind":')
+    if res == 'null':
+        return
+
     res = eval(res)
     for row in res:
         kind = row['kind']
@@ -222,8 +264,8 @@ def sina(cnt):
                     qq.sendMsgToGroup(s)
 
             money = int(volume * cur / 10000)
-            if money < 100:
-                continue
+            #if money < 100:
+            #    continue
 
             #大单主买
             if FIRST_INIT != 1:
@@ -612,7 +654,7 @@ def sc(id):
 
 #每帧获取数据并运行策略
 def gp():
-    global GP_CATCH_DIC,GP_ALL_STR_URL_LIST,FIRST_INIT
+    global GP_CATCH_DIC,GP_ALL_STR_URL_LIST
     #_clock = clock()
     #_clock.start()
 
@@ -638,6 +680,9 @@ def gp():
                 _id = o[:6]
                 data = o[8:][:-1]
                 _o = data.split(',')
+                if len(_o) < 31:
+                    continue
+
                 _31 = _o[31]  # 时间
                 tmplist = GP_CATCH_DIC[_id]['list']
 
@@ -728,29 +773,38 @@ def gp():
 # main
 ###############################################################################################
 def execute():
-    cls()
-    gp()
-    sina(50000)
+    now = datetime.datetime.now()
+    hour = now.hour
+    minute = now.minute
+    if (hour > 9 and hour < 15) or (hour == 9 and minute > 25) or (hour == 15 and minute < 2):
+        gp()
+   # sina(50000)
     #ths('过去两小时资金流入大于2亿')
-    kpl()
+   # cls()
+   # kpl()
+   # kplje()
 
 
 def _init():
     mysql()
     gpinit()
-    #qq.init()
+    qq.init()
 
 def _del():
     closemysql()
 
 def do_while():
+    global FIRST_INIT
     while True:
         execute()
-        FIRST_INIT = 2
+        if FIRST_INIT == 1:
+            print('init finished')
+            FIRST_INIT = 2
         time.sleep(3)
 
 if __name__ == "__main__":
     _init()
-    #_update()
     do_while()
     _del()
+
+#  3401251829

@@ -222,7 +222,6 @@ def sina_down(conn):
             csql = "CREATE TABLE IF NOT EXISTS `" + code + "`(day date,open mediumint unsigned,high mediumint unsigned,low mediumint unsigned,close mediumint unsigned,volume bigint unsigned,ma_price5 mediumint unsigned,ma_volume5 bigint unsigned,ma_price10 mediumint unsigned,ma_volume10 bigint unsigned,ma_price20 mediumint unsigned,ma_volume20 bigint unsigned)"
             cursor.execute(csql)
 
-
         for o in data:
             ssql = "SELECT * FROM `"+ code +"` WHERE day = '" + o['day'] + "'"
             has = cursor.execute(ssql)
@@ -456,8 +455,8 @@ def update(conn):
 
 if __name__ == "__main__":
     #读取mysql连接
-    #conn = pymysql.connect(host='192.168.1.103', user='root', password='Admin123!', db='gp', port=3306, charset='utf8')
-    conn = pymysql.connect(host='localhost', user='root', password='admin123!', db='gp', port=3306, charset='utf8')
+    conn = pymysql.connect(host='192.168.1.103', user='root', password='Admin123!', db='gp', port=3306, charset='utf8')
+    #conn = pymysql.connect(host='localhost', user='root', password='admin123!', db='gp', port=3306, charset='utf8')
     update(conn)
     down(conn)
     day(conn)
