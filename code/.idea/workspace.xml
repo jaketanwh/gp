@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="4f9922ff-da20-43ea-b36b-253e2491e662" name="Default" comment="" />
+    <list default="true" id="f4d9538f-d0f0-4118-af07-f23181fe94e8" name="Default" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -10,113 +10,19 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="CoverageDataManager">
-<<<<<<< HEAD
-=======
-    <SUITE FILE_PATH="coverage/code$dog.coverage" NAME="dog Coverage Results" MODIFIED="1532938407148" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/dog" />
-    <SUITE FILE_PATH="coverage/code$data.coverage" NAME="data Coverage Results" MODIFIED="1533048692243" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/dog" />
-    <SUITE FILE_PATH="coverage/code$mysql.coverage" NAME="mysql Coverage Results" MODIFIED="1532082069991" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/dog" />
-    <SUITE FILE_PATH="coverage/code$robot1.coverage" NAME="robot1 Coverage Results" MODIFIED="1533049196574" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$USER_HOME$/Downloads" />
->>>>>>> f5e3ac3f2ce8dfb137d93fe73b5e1bfcaf314ccb
-    <SUITE FILE_PATH="coverage/code$weibo.coverage" NAME="weibo Coverage Results" MODIFIED="1532489897974" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/weibo" />
-    <SUITE FILE_PATH="coverage/code$dogother.coverage" NAME="dogother Coverage Results" MODIFIED="1533295429112" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/dog" />
-    <SUITE FILE_PATH="coverage/code$mysql.coverage" NAME="mysql Coverage Results" MODIFIED="1532082069991" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/dog" />
-    <SUITE FILE_PATH="coverage/code$data.coverage" NAME="data Coverage Results" MODIFIED="1533372879124" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/dog" />
-    <SUITE FILE_PATH="coverage/code$dog.coverage" NAME="dog Coverage Results" MODIFIED="1533279422939" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/dog" />
+    <SUITE FILE_PATH="coverage/code$format.coverage" NAME="format Coverage Results" MODIFIED="1533431323145" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/dog" />
+    <SUITE FILE_PATH="coverage/code$data.coverage" NAME="data Coverage Results" MODIFIED="1533439793586" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/dog" />
   </component>
   <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="dog.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/dog/dog.py">
-          <provider selected="true" editor-type-id="text-editor">
-<<<<<<< HEAD
-            <state relative-caret-position="15143">
-              <caret line="804" column="22" selection-start-line="804" selection-start-column="22" selection-end-line="804" selection-end-column="22" />
-=======
-            <state relative-caret-position="-370">
-              <caret line="66" column="10" lean-forward="true" selection-start-line="66" selection-start-column="10" selection-end-line="66" selection-end-column="10" />
->>>>>>> f5e3ac3f2ce8dfb137d93fe73b5e1bfcaf314ccb
-              <folding>
-                <element signature="e#0#10#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="dogother.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/dog/dogother.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="6194">
-              <caret line="333" column="34" selection-start-line="333" selection-start-column="34" selection-end-line="333" selection-end-column="34" />
-              <folding>
-                <element signature="e#0#10#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ths.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/ths/ths.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="38">
-              <caret line="2" column="20" selection-start-line="2" selection-start-column="20" selection-end-line="2" selection-end-column="20" />
-              <folding>
-                <element signature="e#0#15#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
+    <leaf>
       <file leaf-file-name="data.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/dog/data.py">
           <provider selected="true" editor-type-id="text-editor">
-<<<<<<< HEAD
-            <state relative-caret-position="373">
-              <caret line="448" column="16" lean-forward="true" selection-start-line="448" selection-start-column="16" selection-end-line="448" selection-end-column="16" />
-=======
-            <state relative-caret-position="2007">
-              <caret line="459" column="6" selection-start-line="459" selection-start-column="6" selection-end-line="459" selection-end-column="6" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="robot1.py" pinned="false" current-in-tab="false">
-        <entry file="file://$USER_HOME$/Downloads/robot1.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="428">
-              <caret line="36" column="14" lean-forward="true" selection-start-line="36" selection-start-column="14" selection-end-line="36" selection-end-column="14" />
->>>>>>> f5e3ac3f2ce8dfb137d93fe73b5e1bfcaf314ccb
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="net.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/dog/net.py">
-          <provider selected="true" editor-type-id="text-editor">
-<<<<<<< HEAD
-            <state relative-caret-position="741">
-              <caret line="39" selection-start-line="39" selection-end-line="41" selection-end-column="17" />
-=======
-            <state relative-caret-position="-70">
-              <caret line="14" column="58" selection-start-line="14" selection-start-column="58" selection-end-line="14" selection-end-column="58" />
->>>>>>> f5e3ac3f2ce8dfb137d93fe73b5e1bfcaf314ccb
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="mysql.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/dog/mysql.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="742">
-              <caret line="51" column="3" selection-start-line="51" selection-start-column="3" selection-end-line="51" selection-end-column="3" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="qq.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/dog/qq.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="171">
-              <caret line="9" column="24" selection-start-line="9" selection-start-column="24" selection-end-line="9" selection-end-column="24" />
+            <state relative-caret-position="215">
+              <caret line="384" column="26" lean-forward="true" selection-start-line="384" selection-start-column="26" selection-end-line="384" selection-end-column="26" />
+              <folding>
+                <element signature="e#0#20#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -125,80 +31,20 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-<<<<<<< HEAD
-=======
-      <find>replace</find>
-      <find>首次</find>
-      <find>allheaders</find>
-      <find>qq.ini</find>
-      <find>kpl</find>
-      <find>html error</find>
-      <find>ths(</find>
-      <find>.keys()</find>
-      <find>zd(</find>
-      <find>拉升</find>
-      <find>print</find>
-      <find>'last'</find>
-      <find>GP_CATCH_DIC[id]['last']</find>
-      <find>GP_KS_TIP_DIC</find>
-      <find>GP_CHECK_DT_LIST</find>
-      <find>GP_DT_LIST</find>
->>>>>>> f5e3ac3f2ce8dfb137d93fe73b5e1bfcaf314ccb
-      <find>GP_CHECK_ZT_LIST</find>
-      <find>GP_ZT_LIST</find>
-      <find>GP_CDT_LIST</find>
-      <find>GP_CZT_LIST</find>
-      <find>GP_LB_LIST</find>
-      <find>GP_CUR_DATE</find>
-      <find>GP_DT_CNT</find>
-      <find>快速</find>
-      <find>净流入</find>
-      <find>qq.init</find>
-      <find>xg</find>
-<<<<<<< HEAD
-      <find>print</find>
-      <find>do_whil</find>
-      <find>冲击涨停</find>
-      <find>ts_updatecode</find>
-      <find>update</find>
-      <find>sina(</find>
-      <find>_update</find>
-      <find>'0.00</find>
-      <find>主力净额][' + time.strftime(&quot;%</find>
-      <find>额][' + time.strftime(&quot;%H:%M</find>
-      <find>ths</find>
-      <find>senMsgToBuddy</find>
-      <find>FIRST_INIT</find>
-      <find>kplje</find>
-      <find>format</find>
-      <find>MYSQL_CONN</find>
+      <find>day_pt</find>
+      <find>day_lb</find>
       <find>day_xg</find>
-      <find>down</find>
       <find>sina_down</find>
-=======
-      <find>has</find>
->>>>>>> f5e3ac3f2ce8dfb137d93fe73b5e1bfcaf314ccb
+      <find>sina_get</find>
+      <find>day_pt_calculate</find>
+      <find>day_lb_calculate</find>
+      <find>day_xg_calculate</find>
     </findStrings>
-    <replaceStrings>
-      <replace>GP_XG_DIC</replace>
-      <replace>GP_PT_TIP_D_LIST</replace>
-      <replace />
-      <replace>F</replace>
-      <replace>_otime</replace>
-    </replaceStrings>
   </component>
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="D:/python3.6/Lib/site-packages/sqlalchemy/engine/__init__.py" />
-        <option value="$PROJECT_DIR$/dog/mysql.py" />
-        <option value="$PROJECT_DIR$/dog/qq.txt" />
-        <option value="$PROJECT_DIR$/dog/net.py" />
-        <option value="$PROJECT_DIR$/dog/qq.py" />
-        <option value="$PROJECT_DIR$/dog/dog.py" />
-        <option value="$PROJECT_DIR$/dog/dogother.py" />
         <option value="$PROJECT_DIR$/dog/data.py" />
-        <option value="$USER_HOME$/Downloads/robot1.py" />
       </list>
     </option>
   </component>
@@ -212,24 +58,16 @@
     <packageJsonPaths />
   </component>
   <component name="ProjectFrameBounds">
-<<<<<<< HEAD
-    <option name="x" value="110" />
-    <option name="y" value="67" />
-    <option name="width" value="1323" />
-    <option name="height" value="969" />
-=======
-    <option name="x" value="15" />
-    <option name="y" value="38" />
+    <option name="x" value="11" />
+    <option name="y" value="26" />
     <option name="width" value="1400" />
-    <option name="height" value="877" />
->>>>>>> f5e3ac3f2ce8dfb137d93fe73b5e1bfcaf314ccb
+    <option name="height" value="838" />
   </component>
   <component name="ProjectView">
     <navigator proportions="" version="1">
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -245,20 +83,18 @@
             <path>
               <item name="code" type="b2602c69:ProjectViewProjectNode" />
               <item name="code" type="462c0819:PsiDirectoryNode" />
-              <item name="ths" type="462c0819:PsiDirectoryNode" />
+              <item name="everydata" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
-    <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
-    <property name="nodejs_npm_path_reset_for_default_project" value="true" />
-    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -272,7 +108,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.robot1">
+  <component name="RunManager" selected="Python.data">
     <configuration name="data" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="code" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -292,7 +128,7 @@
       <option name="EMULATE_TERMINAL" value="false" />
       <option name="MODULE_MODE" value="false" />
     </configuration>
-    <configuration name="dog" type="PythonConfigurationType" factoryName="Python" temporary="true">
+    <configuration name="format" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="code" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -305,107 +141,20 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/dog/dog.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-    </configuration>
-    <configuration name="dogother" type="PythonConfigurationType" factoryName="Python" temporary="true">
-      <module name="code" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/dog" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/dog/dogother.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-    </configuration>
-    <configuration name="mysql" type="PythonConfigurationType" factoryName="Python" temporary="true">
-      <module name="code" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/dog" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/dog/mysql.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-    </configuration>
-    <configuration name="robot1" type="PythonConfigurationType" factoryName="Python" temporary="true">
-      <module name="code" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$USER_HOME$/Downloads" />
-      <option name="IS_MODULE_SDK" value="false" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$USER_HOME$/Downloads/robot1.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-    </configuration>
-    <configuration name="weibo" type="PythonConfigurationType" factoryName="Python" temporary="true">
-      <module name="code" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/weibo" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/weibo/weibo.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/dog/format.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
       <option name="MODULE_MODE" value="false" />
     </configuration>
     <list>
-      <item itemvalue="Python.mysql" />
+      <item itemvalue="Python.format" />
       <item itemvalue="Python.data" />
-      <item itemvalue="Python.dog" />
-      <item itemvalue="Python.weibo" />
-<<<<<<< HEAD
-      <item itemvalue="Python.dogother" />
-=======
-      <item itemvalue="Python.robot1" />
->>>>>>> f5e3ac3f2ce8dfb137d93fe73b5e1bfcaf314ccb
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.robot1" />
         <item itemvalue="Python.data" />
-        <item itemvalue="Python.dogother" />
-        <item itemvalue="Python.dog" />
-        <item itemvalue="Python.weibo" />
-        <item itemvalue="Python.mysql" />
+        <item itemvalue="Python.format" />
       </list>
     </recent_temporary>
   </component>
@@ -414,47 +163,39 @@
   </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="4f9922ff-da20-43ea-b36b-253e2491e662" name="Default" comment="" />
-      <created>1532071238879</created>
+      <changelist id="f4d9538f-d0f0-4118-af07-f23181fe94e8" name="Default" comment="" />
+      <created>1533431279229</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1532071238879</updated>
+      <updated>1533431279229</updated>
     </task>
     <servers />
   </component>
   <component name="ToolWindowManager">
-<<<<<<< HEAD
-    <frame x="110" y="67" width="1323" height="969" extended-state="0" />
-=======
-    <frame x="15" y="38" width="1400" height="877" extended-state="0" />
->>>>>>> f5e3ac3f2ce8dfb137d93fe73b5e1bfcaf314ccb
+    <frame x="11" y="26" width="1400" height="838" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info anchor="bottom" id="TODO" order="6" />
-      <window_info anchor="bottom" id="Event Log" order="7" side_tool="true" />
-      <window_info anchor="bottom" id="Database Changes" order="7" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Version Control" order="7" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Python Console" order="7" />
-<<<<<<< HEAD
-      <window_info anchor="bottom" id="Run" order="2" weight="0.2994152" />
-=======
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.26276463" />
->>>>>>> f5e3ac3f2ce8dfb137d93fe73b5e1bfcaf314ccb
-      <window_info anchor="bottom" id="Terminal" order="7" />
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.2440704" />
-      <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
-      <window_info anchor="right" id="Database" order="3" />
-      <window_info anchor="right" id="SciView" order="3" />
+      <window_info anchor="bottom" id="Event Log" side_tool="true" />
+      <window_info anchor="bottom" id="Database Changes" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Version Control" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Python Console" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.26585695" />
+      <window_info anchor="bottom" id="Terminal" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.14285715" />
+      <window_info anchor="bottom" id="Docker" show_stripe_button="false" />
+      <window_info anchor="right" id="Database" />
+      <window_info anchor="right" id="SciView" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
-      <window_info id="Favorites" order="2" side_tool="true" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.39975095" />
-      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
-      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info id="Favorites" side_tool="true" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
+      <window_info anchor="bottom" id="Find" order="1" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
-      <window_info anchor="bottom" id="Find" order="1" />
     </layout>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -463,307 +204,36 @@
   <component name="VcsContentAnnotationSettings">
     <option name="myLimit" value="2678400000" />
   </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/weibo/weibo.py</url>
-          <line>2</line>
-        </line-breakpoint>
-      </breakpoints>
-      <option name="time" value="1" />
-    </breakpoint-manager>
-  </component>
   <component name="editorHistoryManager">
-<<<<<<< HEAD
-    <entry file="file://$PROJECT_DIR$/dog/dog.py">
-=======
-    <entry file="file://$PROJECT_DIR$/dog/qq.py">
+    <entry file="file://$PROJECT_DIR$/dog/format.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="380">
-          <caret line="20" column="10" lean-forward="true" selection-start-line="20" selection-start-column="10" selection-end-line="20" selection-end-column="10" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/dog/data.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="5776">
-          <caret line="310" column="21" lean-forward="true" selection-start-line="310" selection-start-column="21" selection-end-line="310" selection-end-column="21" />
+        <state relative-caret-position="105">
+          <caret line="7" lean-forward="true" selection-start-line="7" selection-end-line="7" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/dog/mysql.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="969">
-          <caret line="51" column="3" selection-start-line="51" selection-start-column="3" selection-end-line="51" selection-end-column="3" />
-        </state>
-      </provider>
+      <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/dog/gp.txt">
+    <entry file="file://$PROJECT_DIR$/everydata/data.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="40052">
-          <caret line="2108" column="9" selection-start-line="2108" selection-start-column="7" selection-end-line="2108" selection-end-column="9" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/dog/net.py">
->>>>>>> f5e3ac3f2ce8dfb137d93fe73b5e1bfcaf314ccb
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="15143">
-          <caret line="804" column="22" selection-start-line="804" selection-start-column="22" selection-end-line="804" selection-end-column="22" />
-          <folding>
-            <element signature="e#0#10#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/dog/dogother.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="6194">
-          <caret line="333" column="34" selection-start-line="333" selection-start-column="34" selection-end-line="333" selection-end-column="34" />
-          <folding>
-            <element signature="e#0#10#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/ths/ths.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="38">
-          <caret line="2" column="20" selection-start-line="2" selection-start-column="20" selection-end-line="2" selection-end-column="20" />
+        <state>
           <folding>
             <element signature="e#0#15#0" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/dog/net.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="741">
-          <caret line="39" selection-start-line="39" selection-end-line="41" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/dog/qq.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="171">
-          <caret line="9" column="24" selection-start-line="9" selection-start-column="24" selection-end-line="9" selection-end-column="24" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/dog/data.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="8721">
-          <caret line="464" lean-forward="true" selection-start-line="464" selection-end-line="464" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/dog/dog.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="15276">
-          <caret line="804" column="22" selection-start-line="804" selection-start-column="22" selection-end-line="804" selection-end-column="22" />
-          <folding>
-            <element signature="e#0#10#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/ths/ths.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="38">
-          <caret line="2" column="20" selection-start-line="2" selection-start-column="12" selection-end-line="2" selection-end-column="20" />
-          <folding>
-            <element signature="e#0#15#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/dog/data.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="8816">
-          <caret line="464" lean-forward="true" selection-start-line="464" selection-end-line="464" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/dog/net.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="741">
-          <caret line="39" selection-start-line="39" selection-end-line="41" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/dog/qq.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="171">
-          <caret line="9" column="24" selection-start-line="9" selection-start-column="24" selection-end-line="9" selection-end-column="24" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/dog/dogother.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="6327">
-          <caret line="333" column="34" selection-start-line="333" selection-start-column="34" selection-end-line="333" selection-end-column="34" />
-          <folding>
-            <element signature="e#0#10#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/dog/dog.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="15143">
-          <caret line="804" column="22" selection-start-line="804" selection-start-column="22" selection-end-line="804" selection-end-column="22" />
-          <folding>
-            <element signature="e#0#10#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-<<<<<<< HEAD
-    <entry file="file://$PROJECT_DIR$/ths/ths.py">
-=======
-    <entry file="file://D:/python3.6/Lib/site-packages/sqlalchemy/engine/__init__.py" />
-    <entry file="file://$PROJECT_DIR$/dog/mysql.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="114">
-          <caret line="6" column="36" selection-start-line="6" selection-start-column="23" selection-end-line="6" selection-end-column="36" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/dog/data.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="228">
-          <caret line="12" column="55" lean-forward="true" selection-start-line="12" selection-start-column="55" selection-end-line="12" selection-end-column="55" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/dog/md5.py">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://D:/python3.6/Lib/site-packages/sqlalchemy/dialects/mysql/mysqldb.py" />
-    <entry file="file://D:/python3.6/Lib/site-packages/pymysql/err.py" />
-    <entry file="file://D:/python3.6/Lib/site-packages/pymysql/__init__.py" />
-    <entry file="file://D:/python3.6/Lib/site-packages/sqlalchemy/engine/__init__.py" />
-    <entry file="file://D:/python3.6/Lib/json/__init__.py" />
-    <entry file="file://$PROJECT_DIR$/everydata/data.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="57">
-          <caret line="9" column="10" selection-start-line="9" selection-end-line="9" selection-end-column="10" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/weibo/weibo.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="15">
-          <caret line="1" column="3" selection-start-line="1" selection-start-column="3" selection-end-line="1" selection-end-column="3" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/weibo/weibo.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3480">
-          <caret line="238" column="17" selection-start-line="238" selection-start-column="17" selection-end-line="238" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file:///Library/Frameworks/Python.framework/Versions/3.6/lib/python3.6/site-packages/pymysql/err.py" />
-    <entry file="file://$PROJECT_DIR$/dog/gp.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="71">
-          <caret line="2077" column="14" lean-forward="true" selection-start-line="2077" selection-start-column="14" selection-end-line="2077" selection-end-column="14" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/dog/qq.txt">
->>>>>>> f5e3ac3f2ce8dfb137d93fe73b5e1bfcaf314ccb
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="38">
-          <caret line="2" column="20" selection-start-line="2" selection-start-column="20" selection-end-line="2" selection-end-column="20" />
-          <folding>
-            <element signature="e#0#15#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-<<<<<<< HEAD
-    <entry file="file://$PROJECT_DIR$/dog/net.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="741">
-          <caret line="39" selection-start-line="39" selection-end-line="41" selection-end-column="17" />
-=======
-    <entry file="file://D:/python3.6/Lib/json/decoder.py" />
-    <entry file="file://$PROJECT_DIR$/dog/qq.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="150">
-          <caret line="10" column="25" selection-start-line="10" selection-start-column="25" selection-end-line="10" selection-end-column="25" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/dog/net.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-70">
-          <caret line="14" column="58" selection-start-line="14" selection-start-column="58" selection-end-line="14" selection-end-column="58" />
->>>>>>> f5e3ac3f2ce8dfb137d93fe73b5e1bfcaf314ccb
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/dog/mysql.py">
-      <provider selected="true" editor-type-id="text-editor">
-<<<<<<< HEAD
-        <state relative-caret-position="171">
-          <caret line="9" column="24" selection-start-line="9" selection-start-column="24" selection-end-line="9" selection-end-column="24" />
-=======
-        <state relative-caret-position="742">
-          <caret line="51" column="3" selection-start-line="51" selection-start-column="3" selection-end-line="51" selection-end-column="3" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file:///Library/Frameworks/Python.framework/Versions/3.6/lib/python3.6/socket.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="189">
-          <caret line="712" selection-start-line="712" selection-end-line="712" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file:///Library/Frameworks/Python.framework/Versions/3.6/lib/python3.6/site-packages/pymysql/connections.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="189">
-          <caret line="581" selection-start-line="581" selection-end-line="581" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/Downloads/robot1.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="428">
-          <caret line="36" column="14" lean-forward="true" selection-start-line="36" selection-start-column="14" selection-end-line="36" selection-end-column="14" />
->>>>>>> f5e3ac3f2ce8dfb137d93fe73b5e1bfcaf314ccb
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/dog/dogother.py">
-      <provider selected="true" editor-type-id="text-editor">
-<<<<<<< HEAD
-        <state relative-caret-position="6194">
-          <caret line="333" column="34" selection-start-line="333" selection-start-column="34" selection-end-line="333" selection-end-column="34" />
-=======
-        <state relative-caret-position="-370">
-          <caret line="66" column="10" lean-forward="true" selection-start-line="66" selection-start-column="10" selection-end-line="66" selection-end-column="10" />
->>>>>>> f5e3ac3f2ce8dfb137d93fe73b5e1bfcaf314ccb
-          <folding>
-            <element signature="e#0#10#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/dog/data.py">
       <provider selected="true" editor-type-id="text-editor">
-<<<<<<< HEAD
-        <state relative-caret-position="373">
-          <caret line="448" column="16" lean-forward="true" selection-start-line="448" selection-start-column="16" selection-end-line="448" selection-end-column="16" />
-=======
-        <state relative-caret-position="2007">
-          <caret line="459" column="6" selection-start-line="459" selection-start-column="6" selection-end-line="459" selection-end-column="6" />
->>>>>>> f5e3ac3f2ce8dfb137d93fe73b5e1bfcaf314ccb
+        <state relative-caret-position="215">
+          <caret line="384" column="26" lean-forward="true" selection-start-line="384" selection-start-column="26" selection-end-line="384" selection-end-column="26" />
+          <folding>
+            <element signature="e#0#20#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

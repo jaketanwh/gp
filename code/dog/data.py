@@ -177,7 +177,7 @@ def testtushare():
 # sina
 ######################################################################################
 SINA_HISTORY_URL = "http://money.finance.sina.com.cn/quotes_service/api/json_v2.php/CN_MarketData.getKLineData?symbol=%s&scale=%s&ma=%s&datalen=%s"
-
+SINA_DAY = "5"
 #code 代码
 #scale 分钟间隔（5、15、30、60、240）
 #ma 日均值（5、10、15、20、25）
@@ -203,6 +203,7 @@ def sina_get(code,scale,ma,len):
     return -1
 
 def sina_down(conn):
+    global SINA_DAY
     cursor = conn.cursor()
     cursor.execute("SELECT * FROM code")
     res = cursor.fetchall()
@@ -214,9 +215,9 @@ def sina_down(conn):
         code = row[0]
         ma = '5'
 
-        data = sina_get(code,'240', ma, '1')
+        data = sina_get(code,'240', ma, SINA_DAY)
         while data == -1:
-            data = sina_get(code, '240', ma, '1')
+            data = sina_get(code, '240', ma, SINA_DAY)
 
         if table_exists(cursor, code) == 0:
             csql = "CREATE TABLE IF NOT EXISTS `" + code + "`(day date,open mediumint unsigned,high mediumint unsigned,low mediumint unsigned,close mediumint unsigned,volume bigint unsigned,ma_price5 mediumint unsigned,ma_volume5 bigint unsigned,ma_price10 mediumint unsigned,ma_volume10 bigint unsigned,ma_price20 mediumint unsigned,ma_volume20 bigint unsigned)"
@@ -247,81 +248,69 @@ def sina_down(conn):
 # everyday
 ######################################################################################
 #更新日新高数据
-def day_xg(conn):
-    print('新高数据开始更新')
-    xglist = {}
-    cursor = conn.cursor()
-    cursor.execute("SELECT * FROM code")
-    res = cursor.fetchall()
-    lenres = len(res)
-    ires = 0
-    # 计算日新高
-    for row in res:
-        ires = ires + 1
-        code = row[0]
-        if table_exists(cursor, code) == 1:
-            cursor.execute("SELECT high FROM `" + code + "` p ORDER BY p.day DESC LIMIT 60")
-            _res = cursor.fetchall()
-            _day10 = 0
-            _day20 = 0
-            _day30 = 0
-            _day40 = 0
-            _day50 = 0
-            _day60 = 0
-            i = 0
-            for _row in _res:
-                val = _row[0]
-                if i < 10:
-                    _day10 = max(_day10, val)
-                elif i < 20:
-                    _day20 = max(_day20, val)
-                elif i < 30:
-                    _day30 = max(_day30, val)
-                elif i < 40:
-                    _day40 = max(_day40, val)
-                elif i < 50:
-                    _day50 = max(_day50, val)
-                elif i < 60:
-                    _day60 = max(_day60, val)
-                i = i + 1
-            _len = len(_res)
-            if _len == 60:
-                _day20 = max(_day10, _day20)
-                _day30 = max(_day20, _day30)
-                _day40 = max(_day30, _day40)
-                _day50 = max(_day40, _day50)
-                _day60 = max(_day50, _day60)
-            elif _len > 50:
-                _day20 = max(_day10, _day20)
-                _day30 = max(_day20, _day30)
-                _day40 = max(_day30, _day40)
-                _day50 = max(_day40, _day50)
-            elif _len > 40:
-                _day20 = max(_day10, _day20)
-                _day30 = max(_day20, _day30)
-                _day40 = max(_day30, _day40)
-            elif _len > 30:
-                _day20 = max(_day10, _day20)
-                _day30 = max(_day20, _day30)
-            elif _len > 20:
-                _day20 = max(_day10, _day20)
+def day_xg_calculate(res):
+    _day10 = 0
+    _day20 = 0
+    _day30 = 0
+    _day40 = 0
+    _day50 = 0
+    _day60 = 0
+    i = 0
+    for _row in res:
+        val = _row[0]
+        if i < 10:
+            _day10 = max(_day10, val)
+        elif i < 20:
+            _day20 = max(_day20, val)
+        elif i < 30:
+            _day30 = max(_day30, val)
+        elif i < 40:
+            _day40 = max(_day40, val)
+        elif i < 50:
+            _day50 = max(_day50, val)
+        elif i < 60:
+            _day60 = max(_day60, val)
+        i = i + 1
+        if i == 60:
+            break
 
-            _daylist = {}
-            _daylist['10'] = _day10
-            _daylist['20'] = _day20
-            _daylist['30'] = _day30
-            _daylist['40'] = _day40
-            _daylist['50'] = _day50
-            _daylist['60'] = _day60
-            xglist[code] = _daylist
-            print('loading(' + str(ires) + '/' + str(lenres) + ')')
+    _len = len(res)
+    if _len >= 60:
+        _day20 = max(_day10, _day20)
+        _day30 = max(_day20, _day30)
+        _day40 = max(_day30, _day40)
+        _day50 = max(_day40, _day50)
+        _day60 = max(_day50, _day60)
+    elif _len > 50:
+        _day20 = max(_day10, _day20)
+        _day30 = max(_day20, _day30)
+        _day40 = max(_day30, _day40)
+        _day50 = max(_day40, _day50)
+    elif _len > 40:
+        _day20 = max(_day10, _day20)
+        _day30 = max(_day20, _day30)
+        _day40 = max(_day30, _day40)
+    elif _len > 30:
+        _day20 = max(_day10, _day20)
+        _day30 = max(_day20, _day30)
+    elif _len > 20:
+        _day20 = max(_day10, _day20)
 
+    _daylist = {}
+    _daylist['10'] = _day10
+    _daylist['20'] = _day20
+    _daylist['30'] = _day30
+    _daylist['40'] = _day40
+    _daylist['50'] = _day50
+    _daylist['60'] = _day60
+    return _daylist
+
+def day_xg(xglist,cursor):
     # 创建xg表
     if table_exists(cursor, 'xg') == 0:
         cursor.execute("CREATE TABLE IF NOT EXISTS xg(id text, h10 mediumint unsigned, h20 mediumint unsigned, h30 mediumint unsigned, h40 mediumint unsigned, h50 mediumint unsigned, h60 mediumint unsigned)")
 
     # 写入xg表数据
-    print('正在写入...')
     for key, value in xglist.items():
         cursor.execute("SELECT * FROM xg WHERE id = "+key)
         res = cursor.fetchall()
@@ -330,95 +319,70 @@ def day_xg(conn):
         else:
             cursor.execute("UPDATE xg SET h10 = %d, h20 = %d, h30 = %d, h40 = %d, h50 = %d, h60 = %d WHERE id=%s"%(value['10'],value['20'],value['30'],value['40'],value['50'],value['60'],key))
 
-    conn.commit()
-    cursor.close()
     print('新高数据更新完成')
 
 #更新平台数据
-def day_pt(conn):
-    #过去2周数据 每日最高最低价重合 最高最高 最低最低 振幅不超过3%  记录2周最高价
-    print('平台数据开始更新')
-    xglist = {}
-    cursor = conn.cursor()
-    cursor.execute("SELECT * FROM code")
-    res = cursor.fetchall()
-    ires = 0
-    lenres = len(res)
-    for row in res:
-        ires = ires + 1
-        print('loading(' + str(ires) + '/' + str(lenres) + ')')
-        code = row[0]
-        if table_exists(cursor, code) == 1:
-            cursor.execute("SELECT high,low FROM `" + code + "` p ORDER BY p.day DESC LIMIT 10")
-            _res = cursor.fetchall()
-            highlist = []
-            lowlist = []
-            for _row in _res:
-                highlist.append(_row[0])
-                lowlist.append(_row[1])
-            hmax = max(highlist)
-            hmin = min(highlist)
-            bh = (hmax - hmin)/hmax < 0.03
-            if not bh:
-                continue
-            lmax = max(lowlist)
-            lmin = max(lowlist)
-            bl = (lmax - lmin)/lmax < 0.03
-            if not bl:
-                continue
-            hllist = {}
-            hllist['high'] = hmax
-            hllist['low'] = lmin
-            xglist[code] = hllist
+def day_pt_calculate(res):
+    # 过去2周数据 每日最高最低价重合 最高最高 最低最低 振幅不超过3%  记录2周最高价
+    highlist = []
+    lowlist = []
+    i = 0
+    for _row in res:
+        highlist.append(_row[0])
+        lowlist.append(_row[1])
+        i = i + 1
+        if i == 10:
+            break
 
+    hmax = max(highlist)
+    hmin = min(highlist)
+    bh = (hmax - hmin) / hmax < 0.03
+    if not bh:
+        return -1
+
+    lmax = max(lowlist)
+    lmin = max(lowlist)
+    bl = (lmax - lmin) / lmax < 0.03
+    if not bl:
+        return -1
+
+    hllist = {}
+    hllist['high'] = hmax
+    hllist['low'] = lmin
+    return hllist
+
+def day_pt(ptlist,cursor):
     # 创建pt表
     if table_exists(cursor, 'pt') == 1:
         cursor.execute("DROP TABLE pt")
     cursor.execute("CREATE TABLE IF NOT EXISTS pt(id text, high mediumint unsigned, low mediumint unsigned)")
 
     # 写入pt表数据
-    print('正在写入...')
-    for key, value in xglist.items():
+    for key, value in ptlist.items():
         cursor.execute("INSERT INTO pt(id,high,low) VALUES('%s','%d','%d')" % (key, value['high'], value['low']))
-    conn.commit()
-    cursor.close()
     print('平台数据更新完成')
 
 #更新连板数据
-def day_lb(conn):
-    print('连板数据开始更新')
-    lblist = {}
-    cursor = conn.cursor()
-    cursor.execute("SELECT * FROM code")
-    res = cursor.fetchall()
-    ires = 0
-    lenres = len(res)
-    for row in res:
-        ires = ires + 1
-        print('loading(' + str(ires) + '/' + str(lenres) + ')')
-        code = row[0]
-        st = row[1]
-        if table_exists(cursor, code) == 1:
-            cursor.execute("SELECT close FROM `" + code + "` p ORDER BY p.day DESC LIMIT 20")
-            _res = cursor.fetchall()
-            if len(_res) == 20:
-                #次新
-                _ban = 0
-                _lastclose = 0
-                for _row in _res:
-                    _close = _row[0] / 100
-                    if _lastclose == 0:
-                        _lastclose = _close
-                    else:
-                        _tmp = getdt(_lastclose,st == 1)
-                        if _tmp == _close:
-                            _lastclose = _close
-                            _ban = _ban + 1
-                        else:
-                            break
-                if _ban > 0:
-                    lblist[code] = _ban
+def day_lb_calculate(res,st):
+    _ban = 0
+    _lastclose = 0
+    for _row in res:
+        _close = _row[2] / 100
+        if _lastclose == 0:
+            _lastclose = _close
+        else:
+            _tmp = getdt(_lastclose, st == 1)
+            if _tmp == _close:
+                _lastclose = _close
+                _ban = _ban + 1
+            else:
+                break
+    if _ban > 0:
+        return _ban
 
+    return -1
+
+def day_lb(lblist,cursor):
     # 创建lb表
     if table_exists(cursor, 'lb') == 1:
         cursor.execute("DROP TABLE lb")
@@ -428,8 +392,7 @@ def day_lb(conn):
     print('正在写入...')
     for key, value in lblist.items():
         cursor.execute("INSERT INTO lb(id,ban) VALUES('%s','%d')" % (key, value))
-    conn.commit()
-    cursor.close()
+
     print('连板数据更新完成')
 
 
@@ -441,12 +404,40 @@ def down(conn):
     sina_down(conn)
 
 def day(conn):
+    xglist = {}         #新高
+    ptlist = {}         #平台
+    lblist = {}         #连板
+
+    cursor = conn.cursor()
+    cursor.execute("SELECT * FROM code")
+    res = cursor.fetchall()
+    ires = 0
+    lenres = len(res)
+    for row in res:
+        ires = ires + 1
+        print('loading(' + str(ires) + '/' + str(lenres) + ')')
+        code = row[0]
+        st = row[1]
+        if table_exists(cursor, code) == 1:
+            cursor.execute("SELECT high,low,close FROM `" + code + "` p ORDER BY p.day DESC LIMIT 60")
+            res = cursor.fetchall()
+            xglist[code] = day_xg_calculate(res)
+            _pt = day_pt_calculate(res)
+            if _pt != -1:
+                ptlist[code] = _pt
+            _lb = day_lb_calculate(res,st)
+            if _lb != -1:
+                lblist[code] =_lb
+
     #更新新高数据表
-    day_xg(conn)
+    day_xg(xglist,cursor)
     #更新平台数据
-    day_pt(conn)
+    day_pt(ptlist,cursor)
     #更新连板数据
-    day_lb(conn)
+    day_lb(lblist,cursor)
+
+    conn.commit()
+    cursor.close()
 
 def update(conn):
     #更新code表
@@ -455,10 +446,10 @@ def update(conn):
 
 if __name__ == "__main__":
     #读取mysql连接
-    conn = pymysql.connect(host='192.168.1.103', user='root', password='Admin123!', db='gp', port=3306, charset='utf8')
-    #conn = pymysql.connect(host='localhost', user='root', password='admin123!', db='gp', port=3306, charset='utf8')
-    update(conn)
-    down(conn)
+    #conn = pymysql.connect(host='192.168.1.103', user='root', password='Admin123!', db='gp', port=3306, charset='utf8')
+    conn = pymysql.connect(host='localhost', user='root', password='admin123!', db='gp', port=3306, charset='utf8')
+    #update(conn)
+    #down(conn)
     day(conn)
     #close
     conn.close()
