@@ -14,7 +14,7 @@ MYSQL_CONN = 0
 def mysql():
     global MYSQL_CONN
     #MYSQL_CONN = pymysql.connect(host='localhost', user='root', password='admin123!', db='gp', port=3306, charset='utf8')
-    MYSQL_CONN = pymysql.connect(host='192.168.1.103', user='root', password='admin123!', db='gp', port=3306, charset='utf8')
+    MYSQL_CONN = pymysql.connect(host='192.168.1.103', user='root', password='Admin123!', db='gp', port=3306, charset='utf8')
 
 
 def closemysql():
@@ -308,7 +308,7 @@ GP_URL = 'http://hq.sinajs.cn/list='    # sina财经url
 
 #初始化
 def gpinit():
-    global GP_ALL_STR_URL_LIST,GP_ALL_STR_CNT,GP_CUR_DATE,GP_XG_DIC,GP_PT_DIC,MYSQL_CONN,GP_LB_LIST
+    global GP_ALL_STR_URL_LIST,GP_ALL_STR_CNT,GP_XG_DIC,GP_PT_DIC,MYSQL_CONN,GP_LB_LIST#GP_CUR_DATE
     _URL = GP_URL
     cnt = 0
 
@@ -341,7 +341,7 @@ def gpinit():
         res = cursor.fetchall()
         for row in res:
             GP_LB_LIST[row[0]] = row[1]
-
+        #print(GP_LB_LIST)
         cursor.close()
 
 
@@ -367,12 +367,13 @@ def gpinit():
     if cnt > 0:
         _URL = _URL[:-1]
         GP_ALL_STR_URL_LIST.append(_URL)
-
+'''
     lastdate = datetime.date.today()
     oneday = datetime.timedelta(days = 1)
     while lastdate.weekday() > 4:
         lastdate -= oneday
     GP_CUR_DATE = lastdate.strftime('%Y-%m-%d')
+    '''
 
 #涨停跌停通知
 GP_CZT_LIST = []                        #冲涨停列表
@@ -382,7 +383,7 @@ GP_CDT_LIST = []                        #冲跌停列表
 #GP_CHECK_DT_LIST = {}                   #检测跌停列表
 #GP_DT_LIST = []                         #跌停列表
 GP_LB_LIST = {}                         #连板列表
-GP_CUR_DATE = 0                         #当前日期 非交易日向前推
+#GP_CUR_DATE = 0                         #当前日期 非交易日向前推
 #GP_ZT_CNT = {}                          #涨停次数
 #GP_DT_CNT = {}                          #跌停次数
 def zd(id):
@@ -665,7 +666,6 @@ def gp():
         res = net.send(url, 0, 0)
         if res != -1:
             first = 1
-            first2 = 1
             gpArray = res.split(';')
             for gp in gpArray:
                 if len(gp) < 20:
@@ -773,11 +773,12 @@ def gp():
 # main
 ###############################################################################################
 def execute():
-    now = datetime.datetime.now()
-    hour = now.hour
-    minute = now.minute
-    if (hour > 9 and hour < 15) or (hour == 9 and minute > 25) or (hour == 15 and minute < 2):
-        gp()
+
+   # now = datetime.datetime.now()
+   # hour = now.hour
+    #minute = now.minute
+    #if (hour > 9 and hour < 15) or (hour == 9 and minute > 26) or (hour == 15 and minute < 2):
+    gp()
    # sina(50000)
     #ths('过去两小时资金流入大于2亿')
    # cls()
@@ -799,6 +800,7 @@ def do_while():
         execute()
         if FIRST_INIT == 1:
             print('init finished')
+            qq.sendMsgToGroup('init finished')
             FIRST_INIT = 2
         time.sleep(3)
 

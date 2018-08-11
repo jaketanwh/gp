@@ -177,7 +177,7 @@ def testtushare():
 # sina
 ######################################################################################
 SINA_HISTORY_URL = "http://money.finance.sina.com.cn/quotes_service/api/json_v2.php/CN_MarketData.getKLineData?symbol=%s&scale=%s&ma=%s&datalen=%s"
-SINA_DAY = "5"
+SINA_DAY = "1"
 #code 代码
 #scale 分钟间隔（5、15、30、60、240）
 #ma 日均值（5、10、15、20、25）
@@ -389,7 +389,6 @@ def day_lb(lblist,cursor):
     cursor.execute("CREATE TABLE IF NOT EXISTS lb(id text, ban tinyint(1))")
 
     # 写入lb表
-    print('正在写入...')
     for key, value in lblist.items():
         cursor.execute("INSERT INTO lb(id,ban) VALUES('%s','%d')" % (key, value))
 
@@ -446,10 +445,10 @@ def update(conn):
 
 if __name__ == "__main__":
     #读取mysql连接
-    #conn = pymysql.connect(host='192.168.1.103', user='root', password='Admin123!', db='gp', port=3306, charset='utf8')
-    conn = pymysql.connect(host='localhost', user='root', password='admin123!', db='gp', port=3306, charset='utf8')
-    #update(conn)
-    #down(conn)
+    conn = pymysql.connect(host='192.168.1.103', user='root', password='Admin123!', db='gp', port=3306, charset='utf8')
+    #conn = pymysql.connect(host='localhost', user='root', password='admin123!', db='gp', port=3306, charset='utf8')
+    update(conn)
+    down(conn)
     day(conn)
     #close
     conn.close()

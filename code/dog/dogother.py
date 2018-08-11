@@ -1,7 +1,8 @@
 import net
 from format import format
 import qq
-import time,datetime
+import time
+#,datetime
 import json
 from decimal import *
 import pymysql
@@ -238,7 +239,7 @@ def sina(cnt):
     res = res.replace('kind:', '"kind":')
     if res == 'null':
         return
-
+    #print(res)
     res = eval(res)
     for row in res:
         kind = row['kind']
@@ -304,16 +305,17 @@ def sina(cnt):
 # main
 ###############################################################################################
 def execute():
+    '''
     now = datetime.datetime.now()
     hour = now.hour
     minute = now.minute
-    if (hour > 9 and hour < 15) or (hour == 9 and minute > 25) or (hour == 15 and minute < 2):
-        sina(50000)
-        kpl()
-        kplje()
+    if (hour > 9 and hour < 15) or (hour == 9 and minute > 25) or (hour == 15 and minute < 2):'''
+    sina(50000)
+    kpl()
+    kplje()
 
-    if (hour < 8 or hour > 15):
-        time.sleep(60)
+    #if (hour < 8 or hour > 15):
+     #   time.sleep(60)
 
     cls()
 
@@ -331,7 +333,8 @@ def do_while():
     while True:
         execute()
         if FIRST_INIT == 1:
-            print('init finished')
+            #print('init finished')
+            qq.sendMsgToGroup('init finished')
             FIRST_INIT = 2
         time.sleep(3)
 
