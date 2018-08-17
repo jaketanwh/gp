@@ -199,7 +199,12 @@ def sina_get(code,scale,ma,len):
         res = res.replace('volume:', '"volume":')
         res = res.replace('ma_price' + ma, '"ma_price' + ma + '"')
         res = res.replace('ma_volume' + ma, '"ma_volume' + ma + '"')
-        return eval(res)
+        try:
+            rres = eval(res)
+        except Exception as ee:
+            print("rres faild")
+            return -1
+        return rres
     return -1
 
 def sina_down(conn):
@@ -224,6 +229,7 @@ def sina_down(conn):
             cursor.execute(csql)
 
         for o in data:
+
             ssql = "SELECT * FROM `"+ code +"` WHERE day = '" + o['day'] + "'"
             has = cursor.execute(ssql)
             if ('ma_price' + ma) in o.keys():
@@ -446,9 +452,9 @@ def update(conn):
 if __name__ == "__main__":
     #读取mysql连接
     conn = pymysql.connect(host='192.168.1.103', user='root', password='Admin123!', db='gp', port=3306, charset='utf8')
+    #conn = pymysql.connect(host='106.14.152.18', user='stockMarket', password='kdarrkmpjX5kCbTe', db='stockMarket', port=3306, charset='utf8')
     #conn = pymysql.connect(host='localhost', user='root', password='admin123!', db='gp', port=3306, charset='utf8')
     update(conn)
     down(conn)
     day(conn)
-    #close
     conn.close()

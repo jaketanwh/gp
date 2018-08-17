@@ -481,6 +481,7 @@ def zd(id):
                     s = '[跌停][' + _otime + '] ' + _oname + ' ' + id + ' 跌停'
                 qq.senMsgToBuddy(s)
                 qq.sendMsgToGroup(s)
+                print(' _ozsp:' + str(_ozsp))
             GP_CDT_LIST.append(id)
             '''
             GP_CHECK_DT_LIST[id] = time.time()
