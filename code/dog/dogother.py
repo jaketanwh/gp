@@ -333,7 +333,7 @@ def do_while():
     while True:
         execute()
         if FIRST_INIT == 1:
-            #print('init finished')
+            print('init finished')
             #qq.sendMsgToGroup('init finished')
             FIRST_INIT = 2
         time.sleep(3)

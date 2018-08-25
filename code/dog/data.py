@@ -177,7 +177,7 @@ def testtushare():
 # sina
 ######################################################################################
 SINA_HISTORY_URL = "http://money.finance.sina.com.cn/quotes_service/api/json_v2.php/CN_MarketData.getKLineData?symbol=%s&scale=%s&ma=%s&datalen=%s"
-SINA_DAY = "1"
+SINA_DAY = "5"
 #code 代码
 #scale 分钟间隔（5、15、30、60、240）
 #ma 日均值（5、10、15、20、25）
