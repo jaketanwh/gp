@@ -211,7 +211,7 @@ def ths(condition):
 
 ###############################################################################################
 GP_CATCH_DIC = {}                       # 股票缓存字典
-
+GP_JJ_CATCH_DIC = {}                    # 竞价缓存字典
 ###############################################################################################
 # sina大单
 # symbol name ticktime price volume prev_price kind
@@ -357,6 +357,9 @@ def gpinit():
         #dic['name'] = tmp[2].replace('\\n','',1)
         dic['list'] = []
         GP_CATCH_DIC[id] = dic
+        dic2 = {}
+        dic2['list'] = []
+        GP_JJ_CATCH_DIC[id] = dic2
         _URL += url + ','
         cnt = cnt + 1
         if cnt >= GP_ALL_STR_CNT:
@@ -773,56 +776,237 @@ def gp():
 
 #竞价
 def jj():
-    print('jj')
+    global GP_JJ_CATCH_DIC,GP_ALL_STR_URL_LIST
+
+    # TODO 待优化:
+    # 1.多线程发送协议,运行策略与请求数据分别进行
+    # 2.未开板新股去除判定
+    for url in GP_ALL_STR_URL_LIST:
+        res = net.send(url, 0, 0)
+        if res != -1:
+            first = 1
+            gpArray = res.split(';')
+            for gp in gpArray:
+                if len(gp) < 20:
+                    continue
+
+                if first == 1:
+                    o = gp[13:]
+                    first = None
+                else:
+                    o = gp[14:]
+
+                _id = o[:6]
+                data = o[8:][:-1]
+                _o = data.split(',')
+                if len(_o) < 31:
+                    continue
+
+                _31 = _o[31]  # 时间
+                tmplist = GP_JJ_CATCH_DIC[_id]['list']
+                # 1)
+                # 数据去重
+                _len = len(tmplist)
+                if _len > 0:
+                    tmpdata = tmplist[-1]
+                    if tmpdata[3] == _31 or (tmpdata[0] == _o[6] and tmpdata[1] == _o[10]): # and tmpdata[2] == _o[11]
+                        continue
+
+                # 停盘去除
+                if float(_o[3]) == 0:
+                    continue
+
+                # 2)收集数据
+                '''
+                _0 = _o[0]  # 名字
+                _1 = _o[1]  # 今日开盘价
+                _2 = _o[2]  # 昨日收盘价
+                _3 = _o[3]  # 当前价格
+                _4 = _o[4]  # 今日最高价
+                _5 = _o[5]  # 今日最低价
+                _6 = _o[6]  # 竞买价，即“买一”报价
+                _7 = _o[7]  # 竞卖价，即“卖一”报价
+                _8 = _o[8]  # 成交的股票数，由于股票交易以一百股为基本单位，所以在使用时，通常把该值除以一百
+                _9 = _o[9]  # 成交金额，单位为“元”，为了一目了然，通常以“万元”为成交金额的单位，所以通常把该值除以一万
+                _10 = _o[10]  # “买一”申请4695股，即47手
+                _11 = _o[11]  # “买一”报价
+                _12 = _o[12]  # 买二 申请
+                _13 = _o[13]  # 买二 报价
+                _14 = _o[14]  # 买三 申请
+                _15 = _o[15]  # 买三 报价
+                _16 = _o[16]  # 买四 申请
+                _17 = _o[17]  # 买四 报价
+                _18 = _o[18]  # 买五 申请
+                _19 = _o[19]  # 买五 报价
+                _20 = _o[20]  # “卖一”申报3100股，即31手
+                _21 = _o[21]  # “卖一”报价
+                _22 = _o[22]  # 卖二
+                _23 = _o[23]  # 卖二
+                _24 = _o[24]  # 卖三
+                _25 = _o[25]  # 卖三
+                _26 = _o[26]  # 卖四
+                _27 = _o[27]  # 卖四
+                _28 = _o[28]  # 卖五
+                _29 = _o[29]  # 卖五
+                _30 = _o[30]  # 日期
+                _31 = _o[31]  # 时间
+                '''
+                if _len == 0:
+                    _oname = _o[0]
+                    GP_JJ_CATCH_DIC[_id]['name'] = _oname
+                    #GP_JJ_CATCH_DIC[_id]['date'] = _o[30]
+                    #GP_JJ_CATCH_DIC[_id]['ed'] = _o[2]
+
+                arr = []
+                arr[0] = _o[6]          # 竞买价，即“买一”报价
+                arr[1] = _o[10]         # “买一”申请4695股，即47手
+                #arr[2] = _o[11]         # “买一”报价
+                arr[2] = _31            # 时间
+                GP_JJ_CATCH_DIC[_id]['list'].append(arr)
+
+
+#计算竞价模型
+GP_JJ_INIT = 1      #初始化标识
+GP_JJ_CNT = 10      #竞价计算价格个数
+def jsjj():
+    global GP_JJ_INIT
+    if GP_JJ_INIT != 1:
+        return
+    GP_JJ_INIT = 2
+
+    global GP_JJ_CATCH_DIC,GP_JJ_CNT
+    res = []
+
+    for key,value in GP_JJ_CATCH_DIC.items():
+        tmplist = value['list']
+        _len = len(tmplist)
+        if _len < 10:
+            continue
+
+        cnt = 0
+        lbuy = 0
+        lvol = 0
+        insert = 1
+        for i in range(0, _len)[::-1]:
+            o = tmplist[i]
+            buy = o[0]
+            vol = o[1]
+            if (lbuy != 0 and buy > lbuy) or (lvol != 0 and vol > lvol):
+                insert = 2
+                break
+            lbuy = buy
+            lvol = vol
+            if cnt > GP_JJ_CNT:
+                break
+            cnt = cnt + 1
+
+        if insert == 1:
+            attr = []
+            attr[0] = key
+            attr[1] = GP_JJ_CATCH_DIC[key]['name']
+            res.append(attr)
+
+    print('竞价异动:')
+    print(res)
+    fw = open('集合竞价.txt', 'w+')
+    fw.write(str(res))
+    fw.close()
+
+GP_JJ_DB = 1
+def jjdb():
+    global GP_JJ_DB
+    if GP_JJ_DB != 1:
+        return
+    GP_JJ_DB = 2
+
+    global GP_ALL_STR_URL_LIST
+    result = {}
+    # TODO 待优化:
+    # 1.多线程发送协议,运行策略与请求数据分别进行
+    # 2.未开板新股去除判定
+    for url in GP_ALL_STR_URL_LIST:
+        res = net.send(url, 0, 0)
+        if res != -1:
+            first = 1
+            gpArray = res.split(';')
+            for gp in gpArray:
+                if len(gp) < 20:
+                    continue
+
+                if first == 1:
+                    o = gp[13:]
+                    first = None
+                else:
+                    o = gp[14:]
+
+                _id = o[:6]
+                data = o[8:][:-1]
+                _o = data.split(',')
+                if len(_o) < 31:
+                    continue
+
+                result[_id] = _o[9]
+
+    fw = open('成交额.txt', 'w+')
+    fw.write(str(result))
+    fw.close()
+    print('成交额统计完成')
+
 
 ###############################################################################################
 # main
 ###############################################################################################
 def execute():
-    bjtime,weekday = beijingtime.get_time()
-    #时间判定
-    if weekday == 0 and weekday > 5:
-        return
-    hour = bjtime.tm_hour
-    minute = bjtime.tm_min
-    #second = bjtime.tm_sec
+   bjtime,weekday = beijingtime.get_time()
+   #时间判定
+   if weekday == 0 and weekday > 5:
+       return
+   hour = bjtime.tm_hour
+   minute = bjtime.tm_min
+   second = bjtime.tm_sec
 
-    if hour == 9 and minute > 14 and minute < 26:
-        #竞价
-        jj()
-    elif (hour == 9 and minute > 29) or (hour > 9 and hour < 11) or (hour == 11 and minute < 32) or (hour > 12 and hour < 15) or (hour == 15 and minute < 2):
-        #盘中
-        gp()
+   if hour == 9 and minute > 14 and minute < 26:
+       #竞价
+       jj()
+   elif hour == 9 and minute == 25 and second > 5 and second < 20:
+       #计算竞价
+       jsjj()
+   elif hour == 9 and minute == 26 and second > 0 and second < 10:
+       #统计每日集合竞价量数据
+       jjdb()
+   elif (hour == 9 and minute > 29) or (hour > 9 and hour < 11) or (hour == 11 and minute < 32) or (hour > 12 and hour < 15) or (hour == 15 and minute < 2):
+       #盘中
+       gp()
 
-   # sina(50000)
-   # ths('过去两小时资金流入大于2亿')
-   # cls()
-   # kpl()
-   # kplje()
+  # sina(50000)
+  # ths('过去两小时资金流入大于2亿')
+  # cls()
+  # kpl()
+  # kplje()
 
 
 def _init():
-    mysql()
-    gpinit()
-    qq.init('3401251829')
+   mysql()
+   gpinit()
+   qq.init('3401251829')
 
 
 def _del():
-    closemysql()
+   closemysql()
 
 def do_while():
-    global FIRST_INIT
-    while True:
-        execute()
-        if FIRST_INIT == 1:
-            print('init finished')
-            qq.sendMsgToGroup('init finished')
-            FIRST_INIT = 2
-        time.sleep(3)
+   global FIRST_INIT
+   while True:
+       execute()
+       if FIRST_INIT == 1:
+           print('init finished')
+           qq.sendMsgToGroup('init finished')
+           FIRST_INIT = 2
+       time.sleep(3)
 
 if __name__ == "__main__":
-    #_init()
-    do_while()
-    _del()
+   _init()
+   do_while()
+   _del()
 
 #  3401251829
