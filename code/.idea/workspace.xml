@@ -31,8 +31,8 @@
       <file leaf-file-name="data.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/dog/data.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="423">
-              <caret line="383" column="17" lean-forward="true" selection-start-line="383" selection-start-column="17" selection-end-line="383" selection-end-column="17" />
+            <state relative-caret-position="483">
+              <caret line="387" lean-forward="true" selection-start-line="387" selection-end-line="387" />
               <folding>
                 <element signature="e#0#20#0" expanded="true" />
               </folding>
@@ -40,15 +40,27 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="dog.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="集合竞价.txt" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/dog/集合竞价.txt">
+          <provider selected="true" editor-type-id="text-editor" />
+        </entry>
+      </file>
+      <file leaf-file-name="dog.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/dog/dog.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="284">
-              <caret line="22" column="22" lean-forward="true" selection-start-line="22" selection-start-column="22" selection-end-line="22" selection-end-column="22" />
+            <state relative-caret-position="314">
+              <caret line="24" lean-forward="true" selection-start-line="24" selection-end-line="24" />
               <folding>
                 <element signature="e#0#10#0" expanded="true" />
               </folding>
             </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="todogp.txt" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/dog/todogp.txt">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-2" />
           </provider>
         </entry>
       </file>
@@ -125,9 +137,9 @@
       <find>txt.write</find>
       <find>gpinit</find>
       <find>jj</find>
-      <find>tex</find>
       <find>jsjj</find>
       <find>jjdb</find>
+      <find>tex</find>
     </findStrings>
   </component>
   <component name="IdeDocumentHistory">
@@ -142,6 +154,7 @@
         <option value="$PROJECT_DIR$/dog/dogother.py" />
         <option value="$PROJECT_DIR$/dog/txt.py" />
         <option value="$PROJECT_DIR$/dog/dog.py" />
+        <option value="$PROJECT_DIR$/dog/集合竞价.txt" />
       </list>
     </option>
   </component>
@@ -341,9 +354,9 @@
       <window_info anchor="bottom" id="Database Changes" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Version Control" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Python Console" order="7" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.49927744" visible="true" weight="0.20384616" />
+      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49927744" weight="0.20384616" />
       <window_info anchor="bottom" id="Terminal" order="7" />
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.12589413" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.12589413" />
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
       <window_info anchor="right" id="Database" order="3" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.1948718" />
@@ -366,16 +379,6 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/dog/dogother.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="5055">
-          <caret line="345" column="13" selection-start-line="345" selection-start-column="13" selection-end-line="345" selection-end-column="13" />
-          <folding>
-            <element signature="e#0#10#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$USER_HOME$/Desktop/ma5.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="195">
@@ -751,23 +754,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/dog/data.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="423">
-          <caret line="383" column="17" lean-forward="true" selection-start-line="383" selection-start-column="17" selection-end-line="383" selection-end-column="17" />
-          <folding>
-            <element signature="e#0#20#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/dog/GP_JJ_CATCH_DIC.txt">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-121" />
       </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/dog/集合竞价.txt">
-      <provider selected="true" editor-type-id="text-editor" />
     </entry>
     <entry file="file://$PROJECT_DIR$/dog/txt.py">
       <provider selected="true" editor-type-id="text-editor">
@@ -778,13 +768,31 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/dog/dog.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="284">
-          <caret line="22" column="22" lean-forward="true" selection-start-line="22" selection-start-column="22" selection-end-line="22" selection-end-column="22" />
+        <state relative-caret-position="314">
+          <caret line="24" lean-forward="true" selection-start-line="24" selection-end-line="24" />
           <folding>
             <element signature="e#0#10#0" expanded="true" />
           </folding>
         </state>
       </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/dog/todogp.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-2" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/dog/data.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="483">
+          <caret line="387" lean-forward="true" selection-start-line="387" selection-end-line="387" />
+          <folding>
+            <element signature="e#0#20#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/dog/集合竞价.txt">
+      <provider selected="true" editor-type-id="text-editor" />
     </entry>
   </component>
   <component name="masterDetails">
