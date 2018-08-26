@@ -3,7 +3,7 @@ from qqbot import _bot as bot
 QQ_BOT = None           #实例
 QQ_GROUP_LIST = []      #群列表
 QQ_BUDDY_LIST = []      #好友列表
-
+QQ_ZH = ''
 
 #################################################################################################################
 # qq
@@ -13,12 +13,16 @@ def sendMsgToGroup(msg):
         for group in QQ_GROUP_LIST:
             bg = QQ_BOT.List('group', group)
             if bg is not None:
-                QQ_BOT.SendTo(bg[0], msg)
+                ret = QQ_BOT.SendTo(bg[0], msg)
+                if ret.find('成功') == -1:
+                    outlogin()
+                    QQ_BOT.SendTo(bg[0], msg)
+
 
 
 def senMsgToBuddy(msg):
-    #print('senMsgToBuddy:' + msg)
     return
+    #print('senMsgToBuddy:' + msg)
     global QQ_BUDDY_LIST
     if (len(QQ_BUDDY_LIST) > 0 and QQ_BUDDY_LIST[0] != ''):
         for buddy in QQ_BUDDY_LIST:
@@ -26,9 +30,19 @@ def senMsgToBuddy(msg):
             bg = QQ_BOT.List('buddy', buddy)
             print(bg)
             if len(bg) > 0:
-                QQ_BOT.SendTo(bg[0], msg)
+                ret = QQ_BOT.SendTo(bg[0], msg)
+                if ret.find('成功') == -1:
+                    outlogin()
+                    QQ_BOT.SendTo(bg[0], msg)
 
-def init():
+def outlogin():
+    global QQ_BOT,QQ_ZH
+    QQ_BOT.Login(['-q', QQ_ZH])
+    print('qq relogin')
+
+
+
+def init(qq):
     with open('qq.txt',errors='ignore',encoding='utf-8') as fr:
         qqBuddy = fr.readline().strip()
         qqGroup = fr.readline().strip()
@@ -40,7 +54,9 @@ def init():
     print(QQ_BUDDY_LIST)
     print(QQ_GROUP_LIST)
     if (len(QQ_BUDDY_LIST) > 0 and QQ_BUDDY_LIST[0] != '') or (len(QQ_GROUP_LIST) > 0 and QQ_GROUP_LIST[0] != ''):
-        global QQ_BOT
+        global QQ_BOT,QQ_ZH
+        QQ_ZH = qq
         QQ_BOT = bot
-        zh = input('请输入QQ号:')
-        bot.Login(['-q', zh])
+        outlogin()
+        #zh = input('请输入QQ号:')
+        #bot.Login(['-q', QQ_ZH])

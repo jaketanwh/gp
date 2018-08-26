@@ -7,6 +7,7 @@ import json
 from decimal import *
 import pymysql
 import re
+import beijingtime
 
 FIRST_INIT = 1                          #初始化第一次是否send msg
 ###############################################################################################
@@ -305,25 +306,27 @@ def sina(cnt):
 # main
 ###############################################################################################
 def execute():
-    '''
-    now = datetime.datetime.now()
-    hour = now.hour
-    minute = now.minute
-    if (hour > 9 and hour < 15) or (hour == 9 and minute > 25) or (hour == 15 and minute < 2):'''
-    sina(50000)
-    kpl()
-    kplje()
-
-    #if (hour < 8 or hour > 15):
-     #   time.sleep(60)
-
     cls()
+
+    bjtime,weekday = beijingtime.get_time()
+    #时间判定
+    if weekday == 0 and weekday > 5:
+        return
+    hour = bjtime.tm_hour
+    minute = bjtime.tm_min
+    #second = bjtime.tm_sec
+
+    if (hour == 9 and minute > 29) or (hour > 9 and hour < 11) or (hour == 11 and minute < 32) or (hour > 12 and hour < 15) or (hour == 15 and minute < 2):
+        #盘中
+        sina(50000)
+        kpl()
+        kplje()
 
     #ths('过去两小时资金流入大于2亿')
 
 def _init():
-    #mysql()
-    qq.init()
+    mysql()
+    qq.init('2649419635')
 
 def _del():
     closemysql()
@@ -334,7 +337,7 @@ def do_while():
         execute()
         if FIRST_INIT == 1:
             print('init finished')
-            #qq.sendMsgToGroup('init finished')
+            qq.sendMsgToGroup('init finished')
             FIRST_INIT = 2
         time.sleep(3)
 

@@ -6,6 +6,7 @@ import json
 from decimal import *
 import pymysql
 import re
+import beijingtime
 
 ###############################################################################################
 # mysql
@@ -770,18 +771,31 @@ def gp():
     #_clock.stop()
 
 
+#竞价
+def jj():
+    print('jj')
+
 ###############################################################################################
 # main
 ###############################################################################################
 def execute():
+    bjtime,weekday = beijingtime.get_time()
+    #时间判定
+    if weekday == 0 and weekday > 5:
+        return
+    hour = bjtime.tm_hour
+    minute = bjtime.tm_min
+    #second = bjtime.tm_sec
 
-   # now = datetime.datetime.now()
-   # hour = now.hour
-    #minute = now.minute
-    #if (hour > 9 and hour < 15) or (hour == 9 and minute > 26) or (hour == 15 and minute < 2):
-    gp()
+    if hour == 9 and minute > 14 and minute < 26:
+        #竞价
+        jj()
+    elif (hour == 9 and minute > 29) or (hour > 9 and hour < 11) or (hour == 11 and minute < 32) or (hour > 12 and hour < 15) or (hour == 15 and minute < 2):
+        #盘中
+        gp()
+
    # sina(50000)
-    #ths('过去两小时资金流入大于2亿')
+   # ths('过去两小时资金流入大于2亿')
    # cls()
    # kpl()
    # kplje()
@@ -790,7 +804,8 @@ def execute():
 def _init():
     mysql()
     gpinit()
-    qq.init()
+    qq.init('3401251829')
+
 
 def _del():
     closemysql()
@@ -801,12 +816,12 @@ def do_while():
         execute()
         if FIRST_INIT == 1:
             print('init finished')
-            #qq.sendMsgToGroup('init finished')
+            qq.sendMsgToGroup('init finished')
             FIRST_INIT = 2
         time.sleep(3)
 
 if __name__ == "__main__":
-    _init()
+    #_init()
     do_while()
     _del()
 
