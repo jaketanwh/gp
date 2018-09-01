@@ -307,8 +307,9 @@ def sina(cnt):
 ###############################################################################################
 def execute():
     cls()
-
     bjtime,weekday = beijingtime.get_time()
+    if bjtime == -1 or weekday == -1:
+        return
     #时间判定
     if weekday == 0 and weekday > 5:
         return
@@ -316,7 +317,7 @@ def execute():
     minute = bjtime.tm_min
     #second = bjtime.tm_sec
 
-    if (hour == 9 and minute > 29) or (hour > 9 and hour < 11) or (hour == 11 and minute < 32) or (hour > 12 and hour < 15) or (hour == 15 and minute < 2):
+    if (hour == 9 and minute > 23) or (hour > 9 and hour < 11) or (hour == 11 and minute < 32) or (hour > 12 and hour < 15) or (hour == 15 and minute < 2):
         #盘中
         sina(50000)
         kpl()
@@ -337,7 +338,7 @@ def do_while():
         execute()
         if FIRST_INIT == 1:
             print('init finished')
-            qq.sendMsgToGroup('init finished')
+            #qq.sendMsgToGroup('init finished')
             FIRST_INIT = 2
         time.sleep(3)
 

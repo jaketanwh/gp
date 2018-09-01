@@ -756,20 +756,19 @@ def gp():
 
                 #以下开始每帧策略
                 # 3)
-                zd(_id)
-
-                # 4)
-                xg(_id)
-
-                # 5)
-                pt(_id)
-
-                # 6)
                 ks(_id)
 
-                # 7)
+                # 4)
                 sc(_id)
 
+                # 5)
+                zd(_id)
+
+                # 6)
+                xg(_id)
+
+                # 7)
+                pt(_id)
 
     #_clock.stop()
 
@@ -809,7 +808,7 @@ def jj():
                 _len = len(tmplist)
                 if _len > 0:
                     tmpdata = tmplist[-1]
-                    if tmpdata[3] == _31 or (tmpdata[0] == _o[6] and tmpdata[1] == _o[10]): # and tmpdata[2] == _o[11]
+                    if tmpdata[2] == _31 or (tmpdata[0] == _o[6] and tmpdata[1] == _o[10]): # and tmpdata[2] == _o[11]
                         continue
 
                 # 停盘去除
@@ -858,10 +857,13 @@ def jj():
                     #GP_JJ_CATCH_DIC[_id]['ed'] = _o[2]
 
                 arr = []
-                arr[0] = _o[6]          # 竞买价，即“买一”报价
-                arr[1] = _o[10]         # “买一”申请4695股，即47手
+                arr.append(_o[6])
+                arr.append(_o[10])
+                arr.append(_31)
+                #arr[0] = _o[6]          # 竞买价，即“买一”报价
+                #arr[1] = _o[10]         # “买一”申请4695股，即47手
                 #arr[2] = _o[11]         # “买一”报价
-                arr[2] = _31            # 时间
+                #arr[2] = _31            # 时间
                 GP_JJ_CATCH_DIC[_id]['list'].append(arr)
 
 
@@ -873,10 +875,10 @@ def jsjj():
     if GP_JJ_INIT != 1:
         return
     GP_JJ_INIT = 2
-
+    print('集合竞价计算')
     global GP_JJ_CATCH_DIC,GP_JJ_CNT
     res = []
-
+    print(GP_JJ_CATCH_DIC)
     for key,value in GP_JJ_CATCH_DIC.items():
         tmplist = value['list']
         _len = len(tmplist)
@@ -902,9 +904,12 @@ def jsjj():
 
         if insert == 1:
             attr = []
-            attr[0] = key
-            attr[1] = GP_JJ_CATCH_DIC[key]['name']
+            attr.append(key)
+            attr.append(GP_JJ_CATCH_DIC[key]['name'])
+            #attr[0] = key
+            #attr[1] = GP_JJ_CATCH_DIC[key]['name']
             res.append(attr)
+
 
     print('竞价异动:')
     print(res)
@@ -958,6 +963,8 @@ def jjdb():
 ###############################################################################################
 def execute():
    bjtime,weekday = beijingtime.get_time()
+   if bjtime == -1 or weekday == -1:
+       return
    #时间判定
    if weekday == 0 and weekday > 5:
        return
@@ -968,10 +975,10 @@ def execute():
    if hour == 9 and minute > 14 and minute < 26:
        #竞价
        jj()
-   elif hour == 9 and minute == 25 and second > 5 and second < 20:
+   elif hour == 9 and minute == 26 and second > 0 and second < 10:
        #计算竞价
        jsjj()
-   elif hour == 9 and minute == 26 and second > 0 and second < 10:
+   elif hour == 9 and minute == 26 and second > 10 and second < 20:
        #统计每日集合竞价量数据
        jjdb()
    elif (hour == 9 and minute > 29) or (hour > 9 and hour < 11) or (hour == 11 and minute < 32) or (hour > 12 and hour < 15) or (hour == 15 and minute < 2):
@@ -1000,7 +1007,7 @@ def do_while():
        execute()
        if FIRST_INIT == 1:
            print('init finished')
-           qq.sendMsgToGroup('init finished')
+           #qq.sendMsgToGroup('init finished')
            FIRST_INIT = 2
        time.sleep(3)
 
