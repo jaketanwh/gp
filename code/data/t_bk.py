@@ -1,5 +1,11 @@
 # bk表数据
 import tools
+import kpltools
+
+#开盘啦板块详情
+def kpl_bk(code):
+    param = kpltools.build_kpl_bk(code)
+    
 
 def update(conn,t_bk):
     print('bk表开始更新')
