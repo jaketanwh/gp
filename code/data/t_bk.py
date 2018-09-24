@@ -2,6 +2,7 @@
 import tools
 
 def update(conn,t_bk):
+    print('bk表开始更新')
     # 写入游标
     cursor = conn.cursor()
 
@@ -18,3 +19,4 @@ def update(conn,t_bk):
 
     conn.commit()
     cursor.close()
+    print('bk表更新完成')

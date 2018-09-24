@@ -41,10 +41,10 @@ def getboll(df):
 
 #sina day
 def sina_updategg(conn):
-    SINA_DAY = "100"
+    #params
+    SINA_DAY = "1"
     SINA_MA = '5,10,20'
     SINA_SCALE = '240'
-    MACD_DATE = (tools.getlastday()).strftime('%Y-%m-%d')
 
     cursor = conn.cursor()
     cursor.execute("SELECT * FROM code")
@@ -53,7 +53,6 @@ def sina_updategg(conn):
     rlen = len(res)
     for row in res:
         # 代码(id) 是否st(st 1.是 0.不是) 涨跌(percent) 市净率(pb) 市盈率(per) 换手(turnover) 总市值(mktcap) 流通市值(nmc) 真实市值(sjlt) 板块[名字1,名字2...](bk)
-
         code = row[0]
         print('loading:(' + str(index) + '/' + str(rlen) + ') - ' + code)
         index = index + 1

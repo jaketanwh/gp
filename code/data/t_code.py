@@ -6,15 +6,12 @@ import t_bk
 
 #更新板块表 13min
 GLOBAL_BK = {}
-GLOBAL_BK_ID = 1
-def updateBK(name,percent):
-    global GLOBAL_BK,GLOBAL_BK_ID
+def updateBK(name,id,percent):
+    global GLOBAL_BK
     # 没有数据
     if name in GLOBAL_BK.keys():
        return GLOBAL_BK[name][0]
-    GLOBAL_BK[name] = [GLOBAL_BK_ID,percent]
-    GLOBAL_BK_ID = GLOBAL_BK_ID + 1
-    return GLOBAL_BK_ID - 1
+    GLOBAL_BK[name] = [id,percent]
 
 
 #取开盘啦个股数据
@@ -47,10 +44,12 @@ def kpl_gg(code):
         print('[code] ' + res['pankou']['name'] + ' stockplate is NoneType')
     else:
         for row in stockplate:
-            bkname = row[0]     #板块name
-            bkzd = row[1]  # 涨跌幅
-            bkid = updateBK(bkname,bkzd)
-            bklist.append(bkid)
+            bk_name = row[0]     #板块name
+            bk_zd = row[1]       # 涨跌幅
+            bk_id = row[8]       # 板块id
+            #更新bk表数据
+            updateBK(bk_name,bk_id,bk_zd)
+            bklist.append(bk_id)
 
     info['bk'] = str(bklist) #','.join()# str.split(',')
     return info
@@ -126,6 +125,8 @@ def ts_updatecode(conn, today):
 
 
 def update(conn):
+    global GLOBAL_BK
+    GLOBAL_BK = {}
     serverTime,serverDay = tools.get_servertime()
     print('code表开始更新' + str(serverTime))
     ret = -1
@@ -137,8 +138,6 @@ def update(conn):
         print('[code]表更新错误')
         return ret
 
-    global GLOBAL_BK
-    print(GLOBAL_BK)
-    t_bk.update(conn,GLOBAL_BK)
     print('code表更新完成')
+    t_bk.update(conn,GLOBAL_BK)
     return ret
