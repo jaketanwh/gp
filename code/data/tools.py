@@ -4,6 +4,7 @@ import http.client
 import time,datetime
 import json
 import net
+from decimal import *
 
 #表是否存在
 def table_exists(cursor,table_name):
@@ -57,3 +58,23 @@ def getlastday():
             lastdate -= oneday
     return lastdate
     """
+
+#取涨停价
+def getzt(close,st):
+    if st:
+        _corl = 1.05
+    else:
+        _corl = 1.1
+    ztj = Decimal(close * _corl).quantize(Decimal('0.00'))
+    ztj = '{:g}'.format(float(ztj))
+    return float(ztj)
+
+#取跌停价
+def getdt(close,st):
+    if st:
+        _corl = 1.05
+    else:
+        _corl = 1.1
+    dtj = Decimal(close / _corl).quantize(Decimal('0.00'))
+    dtj = '{:g}'.format(float(dtj))
+    return float(dtj)

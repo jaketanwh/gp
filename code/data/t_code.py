@@ -138,6 +138,8 @@ def update(conn):
         print('[code]表更新错误')
         return ret
 
+    ret =
+
     print('code表更新完成')
     t_bk.update(conn,GLOBAL_BK)
     return ret

@@ -87,7 +87,7 @@ def sina_updategg(conn):
             map20 = round(o.get('ma_price20', 0) * 100)
             mav20 = int(o.get('ma_volume20', 0))
             macdval = round(macddata.ix[str(date), 'data_macd']*100)
-            boll = str([round(upper[idx]*100),round(middle[idx]*100),round(lower[idx]*100)])
+            boll = str([round(upper[idx],2),round(middle[idx],2),round(lower[idx],2)])
 
             if has == 0:
                 s = "INSERT INTO `" + code + "`(day,open,high,low,close,volume,ma_price5,ma_volume5,ma_price10,ma_volume10,ma_price20,ma_volume20,macd,boll) VALUES('%s','%d','%d','%d','%d','%d','%d','%d','%d','%d','%d','%d','%d','%s')"
