@@ -42,7 +42,7 @@ def getboll(df):
 #sina day
 def sina_updategg(conn):
     #params
-    SINA_DAY = "1"
+    SINA_DAY = "60"
     SINA_MA = '5,10,20'
     SINA_SCALE = '240'
 

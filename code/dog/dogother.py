@@ -338,7 +338,7 @@ def do_while():
         execute()
         if FIRST_INIT == 1:
             print('init finished')
-            #qq.sendMsgToGroup('init finished')
+            #qq.sendMsgToGroup('滴！打卡上班')
             FIRST_INIT = 2
         time.sleep(3)
 

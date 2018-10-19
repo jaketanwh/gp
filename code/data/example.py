@@ -35,5 +35,10 @@ if __name__ == "__main__":
     #if res1 != None:
     #    print(str(res1) + '-' + str(res2) + '-' + str(res3))
 
+    #lb
+    res = util.lb(conn,'000001')
+    if res != None:
+        print('lb:' + str(res))
+
 
     conn.close()

@@ -54,6 +54,57 @@ def kpl_gg(code):
     info['bk'] = str(bklist) #','.join()# str.split(',')
     return info
 
+#更新连板数据
+def day_lb_calculate(res,st):
+    _ban = 0
+    _lastclose = 0
+    for _row in res:
+        _close = _row[2] / 100
+        if _lastclose == 0:
+            _lastclose = _close
+        else:
+            _tmp = getdt(_lastclose, st == 1)
+            if _tmp == _close:
+                _lastclose = _close
+                _ban = _ban + 1
+            else:
+                break
+    if _ban > 0:
+        return _ban
+
+    return -1
+
+def getdt(close,st):
+    if st:
+        _corl = 1.05
+    else:
+        _corl = 1.1
+    _dtj = Decimal(close / _corl).quantize(Decimal('0.00'))
+    _dtj = '{:g}'.format(float(_dtj))
+    return float(_dtj)
+
+# 遍历个股N天数据
+def checkeach(cursor,code,st,ban=0):
+    cursor.execute("SELECT high,low,close FROM `" + code + "` p ORDER BY p.day DESC LIMIT 20")
+    res = cursor.fetchall()
+    if ban == 0:
+        _lastclose = 0
+        for _row in res:
+            _close = _row[2] * 0.01
+            if _lastclose == 0:
+                _lastclose = _close
+            else:
+                _tmp = tools.getzt(_lastclose, st == 1)
+                if _tmp == _close:
+                    _lastclose = _close
+                    ban = ban + 1
+                else:
+                    break
+    else:
+        ban = 0
+    sql = ("UPDATE code SET lb=%d WHERE id = '" + code + "'") % (ban)
+    cursor.execute(sql)
+
 # 使用tushare 更新代码，st
 def ts_updatecode(conn, today):
     if today.empty:
@@ -91,10 +142,10 @@ def ts_updatecode(conn, today):
 
     # 游标
     cursor = conn.cursor()
-    # 创建code表   代码(id) 是否st(st 1.是 0.不是) 涨跌(percent) 市净率(pb) 市盈率(per) 换手(turnover) 总市值(mktcap) 流通市值(nmc) 真实市值(sjlt) 板块[名字1,名字2...](bk)
+    # 创建code表   代码(id) 是否st(st 1.是 0.不是) 涨跌(percent) 市净率(pb) 市盈率(per) 换手(turnover) 总市值(mktcap) 流通市值(nmc) 真实市值(sjlt) 板块[名字1,名字2...](bk) 连板次数(lb)
     if tools.table_exists(cursor, 'code') == 0:
         cursor.execute(
-            "CREATE TABLE IF NOT EXISTS code(id TEXT,st TINYINT(1),percent SMALLINT,pb MEDIUMINT, per MEDIUMINT,turnover SMALLINT UNSIGNED,nmc INT UNSIGNED,mktcap INT UNSIGNED,sjlt INT UNSIGNED,bk TEXT)")
+            "CREATE TABLE IF NOT EXISTS code(id TEXT,st TINYINT(1),percent SMALLINT,pb MEDIUMINT, per MEDIUMINT,turnover SMALLINT UNSIGNED,nmc INT UNSIGNED,mktcap INT UNSIGNED,sjlt INT UNSIGNED,bk TEXT,lb TINYINT UNSIGNED)")
 
     # 写入code表数据
     for key, value in _list.items():
@@ -106,29 +157,28 @@ def ts_updatecode(conn, today):
         sjlt = value['sjlt']
         percent = value['percent']
         turnover = value['turnover']
-        bk = value['bk']
+        bk = value['bk'].replace('\'', '')
+
         cursor.execute("SELECT * FROM code WHERE id=%s", key)
         res = cursor.fetchall()
         if len(res) == 0:
-            cursor.execute(
-                "INSERT INTO code(id,st,percent,pb,per,turnover,nmc,mktcap,sjlt,bk) VALUES('%s','%d','%d','%d','%d','%d','%d','%d','%d','%s')" % (
-                key, st, percent, pb, per, turnover, nmc, mkcap, sjlt, bk))
+            sql = "INSERT INTO code(id,st,percent,pb,per,turnover,nmc,mktcap,sjlt,bk) VALUES('%s','%d','%d','%d','%d','%d','%d','%d','%d','%s')" % (key, st, percent, pb, per, turnover, nmc, mkcap, sjlt, bk)
+            print(sql)
+            cursor.execute(sql)
         else:
-            sql = ("UPDATE code SET st=%d,percent=%d,pb=%d,per=%d,turnover=%d,nmc=%d,mktcap=%d,sjlt=%d,bk=%s WHERE id = '" + key + "'") % (
-                st, percent, pb, per, turnover, nmc, mkcap, sjlt, "'" + bk + "'")
+            sql = ("UPDATE code SET st=%d,percent=%d,pb=%d,per=%d,turnover=%d,nmc=%d,mktcap=%d,sjlt=%d,bk=%s WHERE id = '" + key + "'") % (st, percent, pb, per, turnover, nmc, mkcap, sjlt, "'" + bk + "'")
+            print(sql)
             cursor.execute(sql)
 
     conn.commit()
     cursor.close()
     return 0
 
-
-
 def update(conn):
     global GLOBAL_BK
     GLOBAL_BK = {}
     serverTime,serverDay = tools.get_servertime()
-    print('code表开始更新' + str(serverTime))
+    print('code表开始更新 ' + "%s/%s/%s " %(serverTime.tm_year,serverTime.tm_mon, serverTime.tm_mday))
     ret = -1
     while ret == -1:
         ret,today = net.tushare_today()
@@ -138,8 +188,24 @@ def update(conn):
         print('[code]表更新错误')
         return ret
 
-    ret =
+    #ret =
 
     print('code表更新完成')
     t_bk.update(conn,GLOBAL_BK)
     return ret
+
+def completedupdate(conn):
+    cursor = conn.cursor()
+    cursor.execute("SELECT * FROM code")
+    res = cursor.fetchall()
+    for row in res:
+        code = row[0]
+        st = row[1]
+        percent = row[2] * 0.01
+        if percent > 9.5:
+            checkeach(cursor,code,st)
+        else:
+            checkeach(cursor,code,st,-1)
+
+    conn.commit()
+    cursor.close()

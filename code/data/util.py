@@ -9,7 +9,7 @@ INDEX_VOL5  = 7
 INDEX_VOL10 = 9
 INDEX_VOL20 = 11
 INDEX_TURN  = 5
-
+INDEX_LB    = 10
 #macd
 def macd(conn,code,date=None):
     if date == None:
@@ -147,6 +147,20 @@ def bkzd(conn, bkid, date=None):
                         downnum = downnum + 1
                     break
         return upnum, midnum, downnum
+    else:
+        cursor.close()
+        return None
+
+#lb
+def lb(conn,code):
+    cursor = conn.cursor()
+    sql = "SELECT * FROM code WHERE id = '" + code + "'"
+    o = cursor.execute(sql)
+    if o > 0:
+        res = cursor.fetchall()
+        cursor.close()
+        global INDEX_LB
+        return res[0][INDEX_LB]
     else:
         cursor.close()
         return None

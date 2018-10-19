@@ -45,8 +45,10 @@ def updateGG():
 
 
 
-
-
+#数据更新完后统计
+def onCompleted():
+    global GLOBAL_CONN
+    t_code.completedupdate(GLOBAL_CONN)
 
 ############################################################
 ##主控函数
@@ -55,7 +57,8 @@ def init():
     #读取mysql连接
     #GLOBAL_CONN = pymysql.connect(host='192.168.1.103', user='root', password='Admin123!', db='gp', port=3306, charset='utf8')
     #GLOBAL_CONN = pymysql.connect(host='106.14.152.18', user='stockMarket', password='kdarrkmpjX5kCbTe', db='stockMarket', port=3306, charset='utf8')
-    GLOBAL_CONN = pymysql.connect(host='localhost', user='root', password='admin123!', db='gp', port=3306, charset='utf8')
+    #GLOBAL_CONN = pymysql.connect(host='localhost', user='root', password='admin123!', db='gp', port=3306, charset='utf8')
+    GLOBAL_CONN = pymysql.connect(host='192.168.1.103', user='root', password='Admin123!', db='lanjingling', port=3306, charset='utf8')
 
 def quit():
     global GLOBAL_CONN
@@ -67,4 +70,5 @@ if __name__ == "__main__":
     init()
     #updateCode()
     updateGG()
+    onCompleted()
     quit()

@@ -981,7 +981,7 @@ def execute():
    elif hour == 9 and minute == 26 and second > 10 and second < 20:
        #统计每日集合竞价量数据
        jjdb()
-   elif (hour == 9 and minute > 29) or (hour > 9 and hour < 11) or (hour == 11 and minute < 32) or (hour > 12 and hour < 15) or (hour == 15 and minute < 2):
+   elif (hour == 9 and minute > 30) or (hour > 9 and hour < 11) or (hour == 11 and minute < 32) or (hour == 13 and minute > 1) or (hour > 13 and hour < 15) or (hour == 15 and minute < 2):
        #盘中
        gp()
 
@@ -1007,7 +1007,7 @@ def do_while():
        execute()
        if FIRST_INIT == 1:
            print('init finished')
-           #qq.sendMsgToGroup('init finished')
+           #qq.sendMsgToGroup('滴！打卡上班')
            FIRST_INIT = 2
        time.sleep(3)
 
