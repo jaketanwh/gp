@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>230207198711170423
+<head>
+  <meta charset="utf-8"/>
+  <meta http-equiv="Access-Control-Allow-Origin" content="*">
+  <script src="jquery/jquery.js"></script>
+  <!--<script src="https://cdn.bootcss.com/jquery/2.2.1/jquery.js"></script>-->
+  {% load static %}
+</head>
+<body>
+  <p>请输入两个数字</p >
+    a: <input type="text" id="a" name="a"> <br>
+    b: <input type="text" id="b" name="b"> <br>
+    <p>result1: <span id='result1'></span></p >
+	<p>result2: <span id='result2'></span></p >
+    <button type="button" id='sum'>提交</button>
+	<script type="text/javascript">
+	  //这里是关键点 .ready 函数好像监听器。
+	  $(document).ready(function () {
+	  //jq的处理函数，当点击提交按钮时执行。
+		$("#sum").click(function () {
+		  //得到页面中id为a和b两个标签的值
+		  var a = $("#a").val();
+		  var b = $("#b").val();
+		  let url = 'http://192.168.1.103:8080/time/';
+		  //向服务器发送get请求，请求地址为demo_add
+		  $.get(url, { 'a': a, 'b': b }, function (ret) {
+			//请求结果为ret，将请求结果赋值给id为result的节点
+			console.log(ret);
+			$('#result1').html(ret.twz)
+			$('#result2').html(ret.zqxt)
+		  })
+		});
+	  });
+	</script>
+</body>
+</html>

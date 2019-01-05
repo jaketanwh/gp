@@ -177,13 +177,13 @@ def testtushare():
 # sina
 ######################################################################################
 SINA_HISTORY_URL = "http://money.finance.sina.com.cn/quotes_service/api/json_v2.php/CN_MarketData.getKLineData?symbol=%s&scale=%s&ma=%s&datalen=%s"
-SINA_DAY = "1"
+SINA_DAY = "2"
 #code 代码
 #scale 分钟间隔（5、15、30、60、240）
 #ma 日均值（5、10、15、20、25）
 #len 个数
 def sina_get(code,scale,ma,len):
-    global SINA_HISTORY_URL
+    global SINA_HISTORY_URLs
     if int(code) >= 600000:
         symbol = 'sh' + code
     else:

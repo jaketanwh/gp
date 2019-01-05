@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+    FUCK
+</head>
+<body>
+    <p>请输入两个数字</p>
+	<input type="text" id="a" name="a"> <br>
+	<input type="text" id="b" name="b"> <br>
+	<p>result: <span id='result'></span></p>
+	<button id='sum'>提交</button>
+    <script>
+			$("#sum").click(function () {
+				  alert("点击了按钮")
+				  //得到页面中id为a和b两个标签的值
+				  var a = $("#a").val();
+				  var b = $("#b").val();
+				  let url = 'http://192.168.1.103:8080/time/';
+
+				  //向服务器发送get请求，请求地址为demo_add
+				  $.get(url, { 'a': a, 'b': b }, function (ret) {
+					//请求结果为ret，将请求结果赋值给id为result的节点
+					$('#result').html(ret)
+			  })
+			});
+    </script>
+</body>
+</html>

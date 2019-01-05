@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script>
+        var xmlhttp
+        var url = 'http://192.168.1.103:8080/time/'
+
+        function AjaxGET() {
+			var a = 111;
+			var b = 222;
+			var turl = url + '?a=' + a + '&b=' + b;
+			xmlhttp = new XMLHttpRequest();
+            xmlhttp.onreadystatechange = callback;
+            xmlhttp.open('GET', turl);
+            xmlhttp.send(null);
+        }
+
+        function AjaxPOST() {
+            xmlhttp.onreadystatechange = callback;
+            xmlhttp = new XMLHttpRequest();
+            xmlhttp.open('POST', url);
+            xmlhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded;charset-UTF-8')
+            xmlhttp.send('a=444&b=555');
+        }
+
+        function callback() {
+            //array.push(xmlhttp.readyState);
+            //5.判断服务器端的交互是否完成，服务器端是否正确返回的数据
+            /*
+			 0: 请求未初始化
+			 1: 服务器连接已建立
+			 2: 请求已接收
+			 3: 请求处理中
+			 4: 请求已完成，且响应已就绪
+			*/
+            if (xmlhttp.readyState == 4) {
+                console.log(xmlhttp.responseText);
+				document.getElementById('myDiv').innerHTML = xmlhttp.status;
+                //和服务器的交互完成
+                if (xmlhttp.status == 200) {
+                    //表示服务器响应代码是200，正确返回了数据
+                    //纯文本数据的接受方法
+                    var message = xmlhttp.responseText;
+                    //xml数据对应的dom对象的接受方法
+                    //使用的前提，服务器设置contenttype为text/xml
+
+                    //固定用法：向div中填充文本的方法
+					var div = document.getElementById("myDiv");
+                	div.innerHTML = xmlhttp.responseText;
+                    //alert(array);
+                }
+            }
+        }
+
+		function customer(str) {
+			if (str == "APPLE")
+			{
+				AjaxGET();
+			}
+			else
+			{
+				AjaxPOST();
+			}
+        }
+		//<button type="button" onclick="AjaxPOST()">发送消息</button>
+    </script>
+</head>
+<body>
+<div id="myDiv"><h2>测试</h2></div>
+<form action="">
+    <select name="customers" onchange="customer(this.value)"
+            style="font-family:Verdana, Arial, Helvetica, sans-serif;">
+        <option value="APPLE">Apple Computer, Inc.</option>
+        <option value="BAIDU ">BAIDU, Inc</option>
+        <option value="Canon">Canon USA, Inc.</option>
+        <option value="Google">Google, Inc.</option>
+        <option value="Nokia">Nokia Corporation</option>
+        <option value="SONY">Sony Corporation of America</option>
+    </select>
+</form>
+</body>
+</html>
